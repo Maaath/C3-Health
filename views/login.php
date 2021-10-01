@@ -193,8 +193,8 @@
                     <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Entrar</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Área do Admin</label>
                         <div class="login-space">
                             <div class="login">
-                                <div class="group"> <label for="user" class="label">E-mail</label> <input id="user" type="text" class="input" placeholder="Seu e-mail"> </div>
-                                <div class="group"> <label for="pass" class="label">Senha (CPF/CNPJ/CRM)</label> <input id="pass" type="password" class="input" data-type="password" placeholder="Sua senha"> </div>
+                                <div class="group"> <label for="user" class="label">E-mail</label> <input id="user" type="text" class="input" placeholder="Seu e-mail" required> </div>
+                                <div class="group"> <label for="pass" class="label">Senha (CPF/CNPJ/CRM)</label> <input id="pass" type="password" class="input" data-type="password" placeholder="Sua senha" required> </div>
                                 <div class="group"> <input id="check" type="checkbox" class="check" checked> <label for="check"><span class="icon"></span> Manter-me logado</label> </div>
                                 <div class="group"> <input type="submit" class="button" value="Sign In" href="index.php" onclick="login()"> </div>
                                 <div class="hr"></div>
@@ -205,7 +205,7 @@
                                     <div class="group">
                                         <div class="group"> <label for="pass" class="label" id="admlabel">Senha de Administrador</label> <input id="admpass" type="password" class="input" data-type="password" placeholder="Sua senha" onchange="checkpass(this.value)"> </div>
                                         <label for="usertype" class="label" id="selectlabel" style="display: none;">Selecione</label>
-                                        <select class="select" id="usertype" name="select" style="display: none;" onchange="checkvalue(this.value)">
+                                        <select class="select" id="usertype" name="select" style="display: none;" onchange="checkvalue(this.value)" required>
                                             <option value="none">-- Tipo de cadastro que deseja fazer --</option>
                                             <option value="doctor">Médico</option>
                                             <option value="lab">Laboratório</option>
@@ -213,28 +213,28 @@
                                         </select>
                                     </div>
                                     <div class="group"> <label for="user" class="label" id="namelabel" style="display: none;">Nome</label> <input id="name" type="text" class="required input" placeholder="Nome" style="display: none;" required> </div>
-                                    <div class="group"> <label for="pass" class="label" id="addrlabel" style="display: none;">Endereço</label> <input id="address" type="text" class="input" data-type="endereço" placeholder="Endereço" style="display: none;"> </div>
-                                    <div class="group"> <label for="pass" class="label" id="phonelabel" style="display: none;">Telefone</label> <input id="phone" type="text" class="input" data-type="tel" pattern="(\([0-9]{2}\))\s([9]{1})?([0-9]{4})-([0-9]{4})" placeholder=" (99) 9999-9999" style="display: none;"> </div>
-                                    <div class="group"> <label for="pass" class="label" id="elabel" style="display: none;">Email</label> <input id="email" type="email" class="input" placeholder="Email" style="display: none;"> </div>
-                                    <div class="group"> <label for="pass" class="label" id="speclabel" style="display: none;">Especialidade</label> <select class="select" id="specialty" name="select" style="display: none;" onchange=this.value>
+                                    <div class="group"> <label for="pass" class="label" id="addrlabel" style="display: none;">Endereço</label> <input id="address" type="text" class="input" data-type="endereço" placeholder="Endereço" style="display: none;" required> </div>
+                                    <div class="group"> <label for="pass" class="label" id="phonelabel" style="display: none;">Telefone</label> <input id="phone" type="text" class="input" data-type="tel" pattern="(\([0-9]{2}\))\s([9]{1})?([0-9]{4})-([0-9]{4})" placeholder=" (99) 9999-9999" style="display: none;" required> </div>
+                                    <div class="group"> <label for="pass" class="label" id="elabel" style="display: none;">Email</label> <input id="email" type="email" class="input" placeholder="Email" style="display: none;" required> </div>
+                                    <div class="group"> <label for="pass" class="label" id="speclabel" style="display: none;">Especialidade</label> <select class="select" id="specialty" name="select" style="display: none;" onchange=this.value required>
                                             <option value="none">-- Selecione a sua especialidade --</option>
                                             <option value="Otorrino">Otorrino</option>
                                             <option value="Psiquiatra">Psiquiatra</option>
                                             <option value="Clinico Geral">Clínico Geral</option>
                                         </select> </div>
                                     <div class="group"> <label for="pass" class="label" id="examlabel" style="display: none;">Tipos de exame</label>
-                                        <div style="display: flex;"> <input id="exams1" type="checkbox" class="check" style="display: none; padding: 10px;"> <label for="check" id=exam1 style="display: none; padding: 10px;"> Sangue </label> <input id="exams2" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam2 style="display: none; padding: 10px;"> Endoscopia </label> </div>
+                                        <div style="display: flex;"> <input id="exams1" type="checkbox" class="check" style="display: none; padding: 10px;" required> <label for="check" id=exam1 style="display: none; padding: 10px;"> Sangue </label> <input id="exams2" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam2 style="display: none; padding: 10px;"> Endoscopia </label> </div>
                                     </div>
-                                    <div class="group"> <label for="pass" class="label" id="genlabel" style="display: none;">Gênero</label> <select class="select" id="gender" name="select" style="display: none;" onchange=this.value>
+                                    <div class="group"> <label for="pass" class="label" id="genlabel" style="display: none;">Gênero</label> <select class="select" id="gender" name="select" style="display: none;" onchange=this.value required>
                                             <option value="none">-- Selecione o seu gênero --</option>
                                             <option value="male">Masculino</option>
                                             <option value="female">Feminino</option>
                                         </select> </div>
-                                    <div class="group"> <label for="pass" class="label" id="agelabel" style="display: none;">Idade</label> <input id="age" type="number" min="0" max="120" class="input" placeholder="Digite a sua idade" style="display: none;"> </div>
-                                    <div class="group"> <label for="pass" class="label" id="crmlabel" style="display: none;">CRM</label> <input id="crm" type="text" class="input" placeholder="Digite o seu CRM" style="display: none;"> </div>
-                                    <div class="group"> <label for="pass" class="label" id="cnpjlabel" style="display: none;">CNPJ</label> <input id="cnpj" type="text" class="input" placeholder="Digite o CNPJ da sua empresa" style="display: none;"> </div>
-                                    <div class="group"> <label for="pass" class="label" id="cpflabel" style="display: none;">CPF</label> <input id="cpf" type="text" class="input" placeholder="Digite o seu CPF" style="display: none;"> </div>
-                                    <div class="group"> <input type="submit" class="button" id="submit" value="Sign Up" style="display: none;" onclick="cadastrar()"> </div>
+                                    <div class="group"> <label for="pass" class="label" id="agelabel" style="display: none;">Idade</label> <input id="age" type="number" min="0" max="120" class="input" placeholder="Digite a sua idade" style="display: none;" required> </div>
+                                    <div class="group"> <label for="pass" class="label" id="crmlabel" style="display: none;">CRM</label> <input id="crm" type="text" class="input" placeholder="Digite o seu CRM" style="display: none;" required> </div>
+                                    <div class="group"> <label for="pass" class="label" id="cnpjlabel" style="display: none;" required>CNPJ</label> <input id="cnpj" type="text" class="input" placeholder="Digite o CNPJ da sua empresa" style="display: none;"> </div>
+                                    <div class="group"> <label for="pass" class="label" id="cpflabel" style="display: none;" required>CPF</label> <input id="cpf" type="text" class="input" placeholder="Digite o seu CPF" style="display: none;" required> </div>
+                                    <div class="group"> <input type="submit" class="button" id="submit" value="Sign Up" style="display: none;" onclick="cadastrar()" required> </div>
                                     <div class="hr"></div>
                                     <div class="foot"> <label class="foot" for="tab-1">Já é cadastrado?</label> </div>
                                 </div>

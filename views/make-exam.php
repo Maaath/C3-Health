@@ -131,31 +131,31 @@
       <form class="main-form">
         <div class="row mt-5 ">
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="text" class="form-control" placeholder="Nome completo">
+            <input type="text" class="form-control" placeholder="Nome completo" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <input type="text" class="form-control" placeholder="Email">
+            <input type="text" class="form-control" placeholder="Email" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="text" class="form-control" placeholder="Telefone" name="telefone" id="telefone">
+            <input type="text" class="form-control" placeholder="Telefone" name="telefone" id="telefone" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <select name="gender" id="gender" class="custom-select">
+            <select name="gender" id="gender" class="custom-select" required>
               <option value="male">Masculino</option>
               <option value="female">Feminino</option>
             </select>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="number" class="form-control" placeholder="Idade">
+            <input type="number" class="form-control" placeholder="Idade" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <input type="text" class="form-control" placeholder="CPF" name="cpf" id="cpf">
+            <input type="text" class="form-control" placeholder="CPF" name="cpf" id="cpf" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="datetime-local" class="form-control">
+            <input type="datetime-local" class="form-control" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
-            <select name="exams" id="exams" class="custom-select">
+            <select name="exams" id="exams" class="custom-select" required>
               <option value="general">Clínico Geral</option>
               <option value="cardiology">Cardiologista</option>
               <option value="dental">Dentista</option>
@@ -164,7 +164,7 @@
             </select>
           </div>
           <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-            <input type="text" class="form-control" placeholder="Endereço">
+            <input type="text" class="form-control" placeholder="Endereço" required>
           </div>
         </div>
 
