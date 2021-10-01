@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appointment_records>
+    <record>
+        <date>31-07-2021</date>
+        <doctor>321353545</doctor>
+        <patient>034.081.090-44</patient>
+        <prescription>Dorflex (3x/d)</prescription>
+        <obs>Vai morrer</obs>
+    </record>
+    <record>
+        <date>09-09-2021</date>
+        <doctor>33355555-1</doctor>
+        <patient>333.111.222-44</patient>
+        <prescription>doctor's prescription updated</prescription>
+        <obs>doctor's observation updated</obs>
+    </record>
+</appointment_records>

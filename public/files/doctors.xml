@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctors>
+    <doctor>
+        <name>Daniel dos Santos Lima</name>
+        <address>Andradas #235</address>
+        <phone_number>(53)2125-7430</phone_number>
+        <email>daniel.lima@unimed.com.br</email>
+        <specialty>Pediatra</specialty>
+        <crm>33355555-1</crm>
+    </doctor>
+    <doctor>
+        <name>André Lima Barros</name>
+        <address>Marechal Floriano 598</address>
+        <phone_number>(51)3231-9564</phone_number>
+        <email>andre.barros@stacasa.com.br</email>
+        <specialty>Clinico Geral</specialty>
+        <crm>965775544-6</crm>
+    </doctor>
+    <doctor>
+        <name>Médico 1</name>
+        <address>Rua dos Médicos 111</address>
+        <phone_number>(53) 98111-1111</phone_number>
+        <email>medico1@gmail.com</email>
+        <specialty>general</specialty>
+        <crm>11.111/RS</crm>
+    </doctor>
+</doctors>
