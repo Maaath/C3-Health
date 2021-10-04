@@ -133,38 +133,38 @@ session_start()
             <!-- <form class="main-form"> -->
             <div class="row mt-5 ">
                 <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-                    <input type="text name" class="form-control" placeholder="Nome completo">
+                    <input type="text name" class="form-control" placeholder="Nome completo" required>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-                    <input type="text email" class="form-control" placeholder="Email">
+                    <input type="text email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-                    <input type="text phone_nubmber" class="form-control" placeholder="Telefone" name="telefone" id="telefone">
+                    <input type="text phone_nubmber" class="form-control" placeholder="Telefone" name="telefone" id="telefone" required>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-                    <select name="gender" id="gender" class="custom-select gender">
+                    <select name="gender" id="gender" class="custom-select gender" required>
                         <option value="male">Masculino</option>
                         <option value="female">Feminino</option>
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-                    <input type="number" class="form-control age" placeholder="Idade">
+                    <input type="number" class="form-control age" placeholder="Idade" required>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-                    <input type="text" class="form-control cpf" placeholder="CPF" name="cpf" id="cpf">
+                    <input type="text" class="form-control cpf" placeholder="CPF" name="cpf" id="cpf" required>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-                    <input type="date" class="form-control date">
+                    <input type="date" class="form-control date" required>
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
-                    <select name="exams" id="exams" class="custom-select exam">
+                    <select name="exams" id="exams" class="custom-select exam" required>
                         <option value="1">Sangue</option>
                         <option value="2">Endoscopia</option>
                         <option value="3">Hepatites</option>
                     </select>
                 </div>
                 <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-                    <input type="text" class="form-control addess" placeholder="Endereço">
+                    <input type="text" class="form-control addess" placeholder="Endereço" required>
                 </div>
             </div>
 
