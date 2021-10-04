@@ -1,13 +1,73 @@
 <?php
+session_start();
 require('../model/laboratory.php');
+require('../model/examsRecords.php');
+require('../model/patient.php');
 class laboratoryController extends laboratory
 {
 
     public function index()
     {
-        $laboratories = new laboratory();
-        $labs = $laboratories->getAllLaboratories();
-        var_dump($labs);
+        $exams_records = new examsRecords();
+        $patients = new patient();
+        
+        
+        // var_dump();die;
+        
+        $recs = (array) $exams_records->getAllExams();
+        
+        // get wait exams
+        $wait_exams = array_filter($recs['record'], function ($val) {
+            $laboratories = new laboratory();
+            $laboratory = $laboratories->getLaboratory(str_replace(array('.', '/', '-'), '', $_SESSION['user']));
+            $date = explode("-", $val->date);
+            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
+            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == 'wait' && in_array((string)$val->exam, (array)$laboratory->exams->exam);
+        });
+
+        foreach ($wait_exams as  $value) {
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
+            $value->patient_name = $patient->name;
+        }
+
+
+        // get my patients
+        $my_patients = array_filter($recs['record'], function ($val) {
+            return $val->laboratory == $_SESSION['user'];
+        });
+
+        $my_patients = array_map(function ($value) {
+            return (string)$value->patient;
+        }, $my_patients);
+
+
+        $my_patients = array_unique($my_patients);
+
+        $my_patients = array_map(function ($value) {
+            $patients = new patient();
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value));
+            return array("patient" => (string)$value, "patient_name" => (string)$patient->name);
+        }, $my_patients);
+
+        // get next exams
+        $next_exams = array_filter($recs['record'], function ($val) {
+            $date = explode("-", $val->date);
+            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
+            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == '1' && $val->laboratory == $_SESSION['user'];
+        });
+
+        $next_exams = array_map(function ($value) {
+            $patients = new patient();
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
+            $value["patient_name"] = (string)$patient->name;
+            return $value;
+        }, $next_exams);
+
+        $_SESSION['wait_exams'] = $wait_exams;
+        $_SESSION['my_patients'] = $my_patients;
+        $_SESSION['next_exams'] = $next_exams;
+
+        include "../views/exams.php";
     }
 
     public function store($params)
@@ -62,30 +122,7 @@ switch ($action) {
     case 'store':
         $laboratory_controller->store($params);
         break;
+    case 'index':
+        $laboratory_controller->index();
+        break;
 }
-
-// $params = array(
-//     'name' => "Analisa 2",
-//     'address' => "Barcelar #65",
-//     'phone_number' => "(53)3230-7830",
-//     'email' => "analisa2.analises@gmail.com.br",
-//     'exams' => array(1, 2, 3),
-//     'cnpj' => "66.666.666/0001-68",
-// );
-
-// $Laboratory->store($params);
-
-// $params = array(
-//     'name' => "Analisa 3",
-//     'address' => "Aquidaban #65",
-//     'phone_number' => "(53)3232-7830",
-//     'email' => "analisa3.analises@gmail.com.br",
-//     'exams' => array(1, 2),
-//     'cnpj' => "66.666.666/0001-68",
-// );
-
-// $Laboratory->edit($params);
-
-// // $Laboratory->index();
-
-// $Laboratory->show($params['cnpj']);

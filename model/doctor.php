@@ -93,7 +93,7 @@ class doctor
         $doctors = simplexml_load_file($file);
 
         foreach ($doctors->doctor as $doc) {
-            if (str_replace(array('-'), "", $doc->crm) == $crm) {
+            if (str_replace(array('-', '/', '.'), "", $doc->crm) == $crm) {
                 return $doc;
             }
         }

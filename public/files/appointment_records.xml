@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <appointment_records>
     <record>
-        <date>31-07-2021</date>
-        <doctor>321353545</doctor>
-        <patient>034.081.090-44</patient>
+        <date>31-09-2021</date>
+        <doctor>11.111/RS</doctor>
+        <patient>222.222.222-22</patient>
         <prescription>Dorflex (3x/d)</prescription>
-        <obs>Vai morrer</obs>
+        <accept>wait</accept>
+        <obs>Repouso por 3 dias</obs>
     </record>
     <record>
-        <date>09-09-2021</date>
-        <doctor>33355555-1</doctor>
-        <patient>333.111.222-44</patient>
-        <prescription>doctor's prescription updated</prescription>
-        <obs>doctor's observation updated</obs>
+        <date>15-10-2021</date>
+        <doctor>11.111/RS</doctor>
+        <patient>034.081.090-44</patient>
+        <prescription/>
+        <specialty>general</specialty>
+        <accept>1</accept>
+        <obs/>
+    </record>
+    <record>
+        <date>20-10-2021</date>
+        <doctor>22.222/RS</doctor>
+        <patient>034.081.090-44</patient>
+        <prescription/>
+        <specialty>general</specialty>
+        <accept>1</accept>
+        <obs/>
+    </record>
+    <record>
+        <date>02-02-2022</date>
+        <doctor/>
+        <patient>034.081.090-44</patient>
+        <prescription/>
+        <specialty>general</specialty>
+        <accept>wait</accept>
+        <obs/>
     </record>
 </appointment_records>

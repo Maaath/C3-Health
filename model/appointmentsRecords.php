@@ -9,57 +9,6 @@ class appointmentsRecords
     public $prescription;
     public $obs;
 
-
-    function setDate($date)
-    {
-        $this->date = $date;
-    }
-
-    function getDate()
-    {
-        return $this->date;
-    }
-
-    function setDoctor($doctor)
-    {
-        $this->doctor = $doctor;
-    }
-
-    function getDoctor()
-    {
-        return $this->doctor;
-    }
-
-    function setPatient($patient)
-    {
-        $this->patient = $patient;
-    }
-
-    function getPatient()
-    {
-        return $this->patient;
-    }
-
-    function setPrescription($prescription)
-    {
-        $this->prescription = $prescription;
-    }
-
-    function getPrescription()
-    {
-        return $this->prescription;
-    }
-
-    function setObs($obs)
-    {
-        $this->obs = $obs;
-    }
-
-    function getObs()
-    {
-        return $this->obs;
-    }
-
     function getAllAppointments()
     {
         $xml = simplexml_load_file('./../public/files/appointment_records.xml');
@@ -108,6 +57,8 @@ class appointmentsRecords
             $record->addChild("doctor", $data['doctor']);
             $record->addChild("patient", $data['patient']);
             $record->addChild("prescription", $data['prescription']);
+            $record->addChild("specialty", $data['specialty']);
+            $record->addChild("accept", $data['accept']);
             $record->addChild("obs", $data['obs']);
 
             $xml->asXML($file);
@@ -147,7 +98,79 @@ class appointmentsRecords
 
         if ($salvar) {
 
-        $xml->asXML($file);
+            $xml->asXML($file);
+
+            $retorno = array(
+                'success' => true,
+                'message' => 'Registro Salvo com sucesso!',
+            );
+        } else {
+            $retorno = array(
+                'success' => false,
+                'message' => 'Não foi possível salvar o Registro',
+            );
+        }
+
+        return $retorno;
+    }
+    
+    function acceptAppointment($data)
+    {
+
+        $file = './../public/files/appointment_records.xml';
+
+        $xml = simplexml_load_file($file);
+
+        $salvar = false;
+
+        foreach ($xml->record as $rec) {
+            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+
+                $salvar = true;
+                $rec->doctor = $data['doctor'];
+                $rec->accept = true;
+            }
+        }
+
+        if ($salvar) {
+
+            $xml->asXML($file);
+
+            $retorno = array(
+                'success' => true,
+                'message' => 'Registro Salvo com sucesso!',
+            );
+        } else {
+            $retorno = array(
+                'success' => false,
+                'message' => 'Não foi possível salvar o Registro',
+            );
+        }
+
+        return $retorno;
+    }
+    
+    function denialAppointment($data)
+    {
+
+        $file = './../public/files/appointment_records.xml';
+
+        $xml = simplexml_load_file($file);
+
+        $salvar = false;
+
+        foreach ($xml->record as $rec) {
+            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+                $salvar = true;
+                $rec->doctor = $data['doctor'];
+                $rec->accept = false;
+            }
+        }
+
+
+        if ($salvar) {
+
+            $xml->asXML($file);
 
             $retorno = array(
                 'success' => true,

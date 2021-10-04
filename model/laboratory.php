@@ -10,67 +10,6 @@ class laboratory
     public $exams;
     public $cnpj;
 
-
-    function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    function getName()
-    {
-        return $this->name;
-    }
-
-    function setAddress($address)
-    {
-        $this->address = $address;
-    }
-
-    function getAddress()
-    {
-        return $this->name;
-    }
-
-    function setPhoneNumber($phone_number)
-    {
-        $this->phone_number = $phone_number;
-    }
-
-    function getPhoneNumber()
-    {
-        return $this->phone_number;
-    }
-
-    function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    function getEmail()
-    {
-        return $this->email;
-    }
-
-    function setExams($exams)
-    {
-        $this->exams = $exams;
-    }
-
-    function getExams()
-    {
-        return $this->exams;
-    }
-
-    function setCnpj($cnpj)
-    {
-        $this->cnpj = $cnpj;
-    }
-
-    function getCnpj()
-    {
-        return $this->cnpj;
-    }
-
     function getAllLaboratories()
     {
         $xml = simplexml_load_file('./../public/files/laboratories.xml');
@@ -93,7 +32,7 @@ class laboratory
         $laboratories = simplexml_load_file($file);
 
         foreach ($laboratories->laboratory as $lab) {
-            if (str_replace(array('-', '.', '/'), "",$lab->cnpj) == $cnpj) {
+            if (str_replace(array('-', '.', '/'), "", $lab->cnpj) == $cnpj) {
                 return $lab;
             }
         }

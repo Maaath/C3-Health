@@ -1,15 +1,69 @@
 <?php
 require('../model/doctor.php');
+require('../model/appointmentsRecords.php');
+require('../model/patient.php');
+session_start();
 class doctorController extends doctor
 {
 
 
     public function index()
     {
-        $doctors = new doctor();
-        $docs = $doctors->getAllDoctors();
-        print_r($docs);
-        die;
+
+        $appointments_records = new appointmentsRecords();
+        $patients = new patient();
+        $recs = (array) $appointments_records->getAllAppointments();
+
+        // get wait appointments
+        $wait_appointments = array_filter($recs['record'], function ($val) {
+            $date = explode("-", $val->date);
+            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
+            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == 'wait' && $val->specialty == $_SESSION['specialty'];
+        });
+
+        foreach ($wait_appointments as  $value) {
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
+            $value->patient_name = $patient->name;
+        }
+
+        session_start();
+
+        // get my patients
+        $my_patients = array_filter($recs['record'], function ($val) {
+            return $val->doctor == $_SESSION['user'];
+        });
+
+        $my_patients = array_map(function ($value) {
+            return (string)$value->patient;
+        }, $my_patients);
+
+        $my_patients = array_unique($my_patients);
+
+        $my_patients = array_map(function ($value) {
+            $patients = new patient();
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value));
+            return array("patient" => (string)$value, "patient_name" => (string)$patient->name);
+        }, $my_patients);
+
+        // get next appointments
+        $next_appointments = array_filter($recs['record'], function ($val) {
+            $date = explode("-", $val->date);
+            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
+            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == '1' && $val->doctor == $_SESSION['user'];
+        });
+
+        $next_appointments = array_map(function ($value) {
+            $patients = new patient();
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
+            $value["patient_name"] = (string)$patient->name;
+            return $value;
+        }, $next_appointments);
+
+        $_SESSION['wait_appointments'] = $wait_appointments;
+        $_SESSION['my_patients'] = $my_patients;
+        $_SESSION['next_appointments'] = $next_appointments;
+
+        include "../views/appointment.php";
     }
 
     public function store($params)
@@ -65,34 +119,7 @@ switch ($action) {
     case 'store':
         $doctor_controller->store($params);
         break;
+    case 'index':
+        $doctor_controller->index();
+        break;
 }
-
-
-// $doctor_controller = new doctorController;
-
-// // $params = array(
-// //     'name' => "André Lima Barros",
-// //     'address' => "Marechal Floreano #964",
-// //     'phone_number' => "(51)3231-9564",
-// //     'email' => "andre.barros@stacasa.com.br",
-// //     'specialty' => "Clinico Geral",
-// //     'crm' => "9657755446",
-// // );
-
-// // $Doctor->store($params);
-
-
-// $params = array(
-//     'name' => "Marcelo Lima Barros",
-//     'address' => "Marechal Floreano  Peixoto #964",
-//     'phone_number' => "(51)3232-9664",
-//     'email' => "marcelo.barros@stacasa.com.br",
-//     'specialty' => "Cirurgião Plastico",
-//     'crm' => "9657755446",
-// );
-
-// // $Doctor->edit($params);
-
-// // $Doctor->index();
-
-// $Doctor->show($params['crm']);

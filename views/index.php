@@ -1,5 +1,6 @@
 <?php
-session_start()
+session_start();
+// var_dump($_SESSION);die;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -75,31 +76,28 @@ session_start()
                 <div class="collapse navbar-collapse" id="navbarSupport">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link home" href="index.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link doctors" href="/views/doctors.php">Nossos médicos</a>
+                            <a class="nav-link home" href="../views/index.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link contact" href="/views/contact.php">Contato</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link appointments" href="/views/appointment.php">Consultas</a>
+                        <li class="nav-item">
+                            <a class="nav-link appointments" href="/controllers/doctorController.php?action=index">Consultas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link exams" href="/views/exams.php">Exames</a>
+                            <a class="nav-link exams" href="/controllers/laboratoryController.php?action=index">Exames</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link appointment-history" href="/views/appointment-history.php">Histórico de consultas</a>
+                            <a class="nav-link appointment-history" href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=">Histórico de consultas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link exams-history" href="/views/exams-history.php">Histórico de exames</a>
-                        </li> -->
+                            <a class="nav-link exams-history" href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=">Histórico de exames</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link make-appointment" href="/views/make-appointment.php">Marcar consulta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/views/make-exam.php">Marcar exame</a>
+                            <a class="nav-link make-exam" href="/views/make-exam.php">Marcar exame</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn btn-primary ml-lg-3 login" href="/views/login.php">Entrar / Registrar</a>
@@ -175,48 +173,48 @@ session_start()
         <div class="container">
             <h1 class="text-center wow fadeInUp">Marque a sua consulta</h1>
 
-            <form class="main-form">
-                <div class="row mt-5 ">
-                    <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-                        <input type="text" class="form-control" placeholder="Nome completo">
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-                        <input type="text" class="form-control" placeholder="Email">
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-                        <input type="text" class="form-control" placeholder="Telefone">
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-                        <select name="gender" id="gender" class="custom-select">
-                            <option value="male">Masculino</option>
-                            <option value="female">Feminino</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-                        <input type="number" class="form-control" placeholder="Idade">
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-                        <input type="text" class="form-control" placeholder="CPF">
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-                        <input type="datetime-local" class="form-control">
-                    </div>
-                    <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
-                        <select name="departement" id="departement" class="custom-select">
-                            <option value="general">Clínico Geral</option>
-                            <option value="cardiology">Cardiologista</option>
-                            <option value="dental">Dentista</option>
-                            <option value="neurology">Neurologista</option>
-                            <option value="orthopaedics">Ortopedista</option>
-                        </select>
-                    </div>
-                    <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-                        <input type="text" class="form-control" placeholder="Endereço">
-                    </div>
+            <!-- <form class="main-form"> -->
+            <div class="row mt-5 ">
+                <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
+                    <input type="text" class="form-control name" placeholder="Nome completo">
                 </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInRight">
+                    <input type="text" class="form-control email" placeholder="Email">
+                </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
+                    <input type="text" class="form-control phone_number" placeholder="Telefone">
+                </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInRight">
+                    <select name="gender" id="gender" class="custom-select gender">
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
+                    <input type="number" class="form-control age" placeholder="Idade">
+                </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInRight">
+                    <input type="text" class="form-control cpf" placeholder="CPF">
+                </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
+                    <input type="date" class="form-control date">
+                </div>
+                <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
+                    <select name="departement" id="departement" class="custom-select specialty">
+                        <option value="general">Clínico Geral</option>
+                        <option value="cardiology">Cardiologista</option>
+                        <option value="dental">Dentista</option>
+                        <option value="neurology">Neurologista</option>
+                        <option value="orthopaedics">Ortopedista</option>
+                    </select>
+                </div>
+                <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+                    <input type="text" class="form-control address" placeholder="Endereço">
+                </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary mt-3 wow zoomIn">Marcar consulta</button>
-            </form>
+            <button onclick="makeAppointment()" class="btn btn-primary mt-3 wow zoomIn">Marcar consulta</button>
+            <!-- </form> -->
         </div>
     </div> <!-- .page-section -->
 
@@ -286,6 +284,7 @@ session_start()
 
     <script src="../assets/js/home.js"></script>
 
+    <script src="../assets/js/login.js"></script>
 
 </body>
 

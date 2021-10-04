@@ -94,36 +94,37 @@ class examsRecords
         $file = './../public/files/exams_records.xml';
 
         $xml = simplexml_load_file($file);
-        
-        // $salvar = true;
 
-        // foreach ($xml as $rec) {
-        //     if ($rec->crm == $data['crm']) $salvar = false;
-        // }
+        $salvar = true;
 
-        // if ($salvar) {
+        foreach ($xml as $rec) {
+            if ($rec->patient == $data['patient'] && $rec->laboratory == $data['laboratory'] && $rec->date == $data['date']) $salvar = false;
+        }
 
-        $record = $xml->addChild("record");
-        $record->addChild("date", $data['date']);
-        $record->addChild("laboratory", $data['laboratory']);
-        $record->addChild("patient", $data['patient']);
-        $record->addChild("exam", $data['exam']);
-        $record->addChild("result", $data['result']);
+        if ($salvar) {
 
-        $xml->asXML($file);
+            $record = $xml->addChild("record");
+            $record->addChild("date", $data['date']);
+            $record->addChild("laboratory", $data['laboratory']);
+            $record->addChild("patient", $data['patient']);
+            $record->addChild("exam", $data['exam']);
+            $record->addChild("result", $data['result']);
+            $record->addChild("accept", $data['accept']);
 
-        // $retorno = array(
-        //     'success' => true,
-        //     'message' => 'Registro Salvo com sucesso!',
-        // );
-        // } else {
+            $xml->asXML($file);
 
-        //     $retorno = array(
-        //         'success' => false,
-        //         'message' => 'Não foi possível salvar o Registro',
-        //     );
-        // }
-        // return $retorno;
+            $retorno = array(
+                'success' => true,
+                'message' => 'Registro Salvo com sucesso!',
+            );
+        } else {
+
+            $retorno = array(
+                'success' => false,
+                'message' => 'Não foi possível salvar o Registro',
+            );
+        }
+        return $retorno;
     }
 
     function editExam($data)
@@ -161,5 +162,76 @@ class examsRecords
         // }
 
         // return $retorno;
+    }
+
+    function acceptExam($data)
+    {
+
+        $file = './../public/files/exams_records.xml';
+
+        $xml = simplexml_load_file($file);
+
+        $salvar = false;
+
+        foreach ($xml->record as $rec) {
+            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+
+                $salvar = true;
+                $rec->laboratory = $data['laboratory'];
+                $rec->accept = true;
+            }
+        }
+
+        if ($salvar) {
+
+            $xml->asXML($file);
+
+            $retorno = array(
+                'success' => true,
+                'message' => 'Registro Salvo com sucesso!',
+            );
+        } else {
+            $retorno = array(
+                'success' => false,
+                'message' => 'Não foi possível salvar o Registro',
+            );
+        }
+
+        return $retorno;
+    }
+    
+    function denialExam($data)
+    {
+
+        $file = './../public/files/exams_records.xml';
+
+        $xml = simplexml_load_file($file);
+
+        $salvar = false;
+
+        foreach ($xml->record as $rec) {
+            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+                $salvar = true;
+                $rec->laboratory = $data['laboratory'];
+                $rec->accept = false;
+            }
+        }
+
+        if ($salvar) {
+
+            $xml->asXML($file);
+
+            $retorno = array(
+                'success' => true,
+                'message' => 'Registro Salvo com sucesso!',
+            );
+        } else {
+            $retorno = array(
+                'success' => false,
+                'message' => 'Não foi possível salvar o Registro',
+            );
+        }
+
+        return $retorno;
     }
 }

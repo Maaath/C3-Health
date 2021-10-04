@@ -1,5 +1,9 @@
+<?php
+session_start()
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,28 +26,29 @@
 
   <script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-  <script src="../assets/js/bootstrap.min.js"></script> 
+  <script src="../assets/js/bootstrap.min.js"></script>
 
   <script type="text/javascript" src="../assets/js/jquery.mask.min.js"></script>
 
   <script>
-    $(document).ready(function(){
-			$("#cpf").mask("000.000.000-00")
-			$("#telefone").mask("(00) 0000-00009")
-      $("#telefone").blur(function(event){
-          if ($(this).val().length == 15){
-            $("#telefone").mask("(00) 90000-0000")
-          }else{
-            $("#telefone").mask("(00) 0000-0000")
-          }
-        })
-  })
-		
+    $(document).ready(function() {
+      $("#cpf").mask("000.000.000-00")
+      $("#telefone").mask("(00) 0000-00009")
+      $("#telefone").blur(function(event) {
+        if ($(this).val().length == 15) {
+          $("#telefone").mask("(00) 90000-0000")
+        } else {
+          $("#telefone").mask("(00) 0000-0000")
+        }
+      })
+    })
   </script>
 
 </head>
-<body>
 
+<body>
+  <span id="session_user" hidden><?= $_SESSION['user'] ?></span>
+  <span id="session_typeuser" hidden><?= isset($_SESSION['typeUser']) ? $_SESSION['typeUser'] : '' ?></span>
   <!-- Back to top button -->
   <div class="back-to-top"></div>
 
@@ -80,34 +85,31 @@
         <div class="collapse navbar-collapse" id="navbarSupport">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
+              <a class="nav-link home" href="../views/index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="doctors.php">Nossos médicos</a>
+              <a class="nav-link contact" href="/views/contact.php">Contato</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contato</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="appointment.php">Consultas</a>
+              <a class="nav-link appointments" href="/controllers/doctorController.php?action=index">Consultas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="exams.php">Exames</a>
+              <a class="nav-link exams" href="/controllers/laboratoryController.php?action=index">Exames</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="appointment-history.php">Histórico de consultas</a>
+              <a class="nav-link appointment-history" href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=">Histórico de consultas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="exams-history.php">Histórico de exames</a>
-            </li> -->
+              <a class="nav-link exams-history" href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=">Histórico de exames</a>
+            </li>
             <li class="nav-item active">
-              <a class="nav-link" href="make-appointment.php">Marcar consulta</a>
+              <a class="nav-link make-appointment" href="/views/make-appointment.php">Marcar consulta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="make-exam.php">Marcar exame</a>
+              <a class="nav-link make-exam" href="/views/make-exam.php">Marcar exame</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="login.php">Entrar / Registrar</a>
+              <a class="btn btn-primary ml-lg-3 login" href="/views/login.php">Entrar / Registrar</a>
             </li>
           </ul>
         </div> <!-- .navbar-collapse -->
@@ -119,48 +121,48 @@
     <div class="container">
       <h1 class="text-center wow fadeInUp">Marque a sua consulta</h1>
 
-      <form class="main-form">
-        <div class="row mt-5 ">
-          <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="text" class="form-control" placeholder="Nome completo">
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <input type="text" class="form-control" placeholder="Email">
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="text" class="form-control" placeholder="Telefone" name="telefone" id="telefone">
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <select name="gender" id="gender" class="custom-select">
-              <option value="male">Masculino</option>
-              <option value="female">Feminino</option>
-            </select>
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="number" class="form-control" placeholder="Idade">
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <input type="text" class="form-control" placeholder="CPF" name="cpf" id="cpf">
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="datetime-local" class="form-control">
-          </div>
-          <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
-            <select name="departement" id="departement" class="custom-select">
-              <option value="general">Clínico Geral</option>
-              <option value="cardiology">Cardiologista</option>
-              <option value="dental">Dentista</option>
-              <option value="neurology">Neurologista</option>
-              <option value="orthopaedics">Ortopedista</option>
-            </select>
-          </div>
-          <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-            <input type="text" class="form-control" placeholder="Endereço">
-          </div>
+      <!-- <form class="main-form"> -->
+      <div class="row mt-5 ">
+        <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
+          <input type="text" class="form-control name" placeholder="Nome completo">
         </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInRight">
+          <input type="text" class="form-control email" placeholder="Email">
+        </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
+          <input type="text" class="form-control phone_number" placeholder="Telefone" name="telefone" id="telefone">
+        </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInRight">
+          <select name="gender" id="gender" class="custom-select gender">
+            <option value="male">Masculino</option>
+            <option value="female">Feminino</option>
+          </select>
+        </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInLeft age">
+          <input type="number" class="form-control" placeholder="Idade">
+        </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInRight">
+          <input type="text" class="form-control cpf" placeholder="CPF" name="cpf" id="cpf">
+        </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
+          <input type="date" class="form-control date">
+        </div>
+        <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
+          <select name="departement" id="departement" class="custom-select specialty">
+            <option value="general">Clínico Geral</option>
+            <option value="cardiology">Cardiologista</option>
+            <option value="dental">Dentista</option>
+            <option value="neurology">Neurologista</option>
+            <option value="orthopaedics">Ortopedista</option>
+          </select>
+        </div>
+        <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+          <input type="text" class="form-control address" placeholder="Endereço">
+        </div>
+      </div>
 
-        <button type="submit" class="btn btn-primary mt-3 wow zoomIn">Marcar consulta</button>
-      </form>
+      <button onclick="makeAppointment()" class="btn btn-primary mt-3 wow zoomIn">Marcar consulta</button>
+      <!-- </form> -->
     </div>
   </div> <!-- .page-section -->
 
@@ -210,7 +212,7 @@
             <a href="#" target="_blank"><span class="mai-logo-linkedin"></span></a>
           </div>
         </div>
-        
+
       </div>
 
       <hr>
@@ -220,16 +222,18 @@
   </footer>
 
 
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
 
-<script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+  <script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
 
-<script src="../assets/vendor/wow/wow.min.js"></script>
+  <script src="../assets/vendor/wow/wow.min.js"></script>
 
-<script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/theme.js"></script>
+
+  <script src="../assets/js/home.js"></script>
 
 
 
-  
 </body>
+
 </html>

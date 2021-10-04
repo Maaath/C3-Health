@@ -1,44 +1,3 @@
-// $(function() {
-
-//     $('#login-form-link').click(function(e) {
-// 		$("#login-form").delay(100).fadeIn(100);
-//  		$("#register-form").fadeOut(100);
-// 		$('#register-form-link').removeClass('active');
-// 		$(this).addClass('active');
-// 		e.preventDefault();
-// 	});
-// 	$('#register-form-link').click(function(e) {
-// 		$("#register-form").delay(100).fadeIn(100);
-//  		$("#login-form").fadeOut(100);
-// 		$('#login-form-link').removeClass('active');
-// 		$(this).addClass('active');
-// 		e.preventDefault();
-// 	});
-// 	$('#login').on('submit',function(e) {
-// 		$.ajax({
-// 			type: "POST",
-// 			// data: {
-// 			// invoiceno:jobid
-// 			// },
-// 			url: "c3-health/controllers/DoctorController/index",
-// 			dataType: "html",
-// 			async: false,
-// 			success: function(data) {
-// 				console.log(data);
-// 			}		
-// 	});
-// 	});
-// $('#login').attr({
-//     onsubmit: 'return true',
-//     action: '/controllers/homeController.php',
-//     target: ''
-// }).submit();
-// // });
-// $("#submit").on('click', function() {
-//     alert("teste");
-// });
-
-
 function login() {
 
     let user = $('#user').val();
@@ -75,14 +34,16 @@ function cadastrar() {
     let phone_number = $('#phone').val();
     let email = $('#email').val();
     let specialty = $('#specialty').val();
-    let exam = $('#exams').val();
+    var exam = [1, 2, 3];
     let gender = $('#gender').val();
     let age = $('#age').val();
     let crm = $('#crm').val();
     let cnpj = $('#cnpj').val();
     let cpf = $('#cpf').val();
-    alert("in");
-    // console.log(usertype, name, address, phone_number, email, specialty, exams, gender, age, crm, cnpj, cpf);
+
+    if (!$('#exams3').is(":checked")) exam.splice(2, 1);
+    if (!$('#exams2').is(":checked")) exam.splice(1, 1);
+    if (!$('#exams1').is(":checked")) exam.splice(0, 1);
 
     if (usertype == 'doctor') {
         var url = "/controllers/doctorController.php";
@@ -102,7 +63,7 @@ function cadastrar() {
             email,
             address,
             phone_number,
-            exams: [exam],
+            exams: exam,
             cnpj,
             action: 'store'
         };

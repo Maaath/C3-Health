@@ -27,7 +27,8 @@ session_start()
 </head>
 
 <body>
-
+  <span id="session_user" hidden><?= $_SESSION['user'] ?></span>
+  <span id="session_typeuser" hidden><?= isset($_SESSION['typeUser']) ? $_SESSION['typeUser'] : '' ?></span>
   <!-- Back to top button -->
   <div class="back-to-top"></div>
 
@@ -67,42 +68,38 @@ session_start()
           </div>
         </form> -->
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport"
-          aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupport">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
+              <a class="nav-link home" href="../views/index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="doctors.php">Nossos médicos</a>
+              <a class="nav-link contact" href="/views/contact.php">Contato</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contato</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="appointment.php">Consultas</a>
+              <a class="nav-link appointments" href="/controllers/doctorController.php?action=index">Consultas</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="exams.php">Exames</a>
+              <a class="nav-link exams" href="/controllers/laboratoryController.php?action=index">Exames</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="appointment-history.php">Histórico de consultas</a>
+              <a class="nav-link appointment-history" href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=">Histórico de consultas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="exams-history.php">Histórico de exames</a>
+              <a class="nav-link exams-history" href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=">Histórico de exames</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="make-appointment.php">Marcar consulta</a>
+              <a class="nav-link make-appointment" href="/views/make-appointment.php">Marcar consulta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="make-exam.php">Marcar exame</a>
+              <a class="nav-link make-exam" href="/views/make-exam.php">Marcar exame</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="login.php">Entrar / Registrar</a>
+              <a class="btn btn-primary ml-lg-3 login" href="/views/login.php">Entrar / Registrar</a>
             </li>
           </ul>
         </div> <!-- .navbar-collapse -->
@@ -130,79 +127,29 @@ session_start()
         <div class="col-lg-10 mt-5">
           <h1 class="text-center mb-5 wow fadeInUp" style="color: #00D9A5 ;">Próximos Exames</h1>
           <div class="owl-carousel wow fadeInUp" id="nextCarrousel">
-            
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                    <abbr title="Desmarcar Exame"><a href="#"><span class="mai-remove"></span></a></abbr>
+
+            <?php
+            if (count($_SESSION['next_exams'])) {
+              foreach ($_SESSION['next_exams'] as $value) {
+            ?>
+                <div class="item">
+                  <div class="card-doctor">
+                    <div class="header">
+                      <img src="../assets/img/place_holder.png" alt="">
+                      <div class="meta">
+                        <abbr title="Ver histórico de exames do paciente"><a href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
+                      </div>
+                    </div>
+                    <div class="body">
+                      <p class="text-xl mb-1"><?= $value['patient_name'] ?></p>
+                      <span class="text-sm text-grey"><?= str_replace("-", "/", $value->date) ?></span>
+                    </div>
                   </div>
                 </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                    <abbr title="Desmarcar Exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                    <abbr title="Desmarcar Exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                    <abbr title="Desmarcar Exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-
-              </div> <!-- card-doctor -->
-            </div> <!-- item -->
+            <?php
+              }
+            }
+            ?>
 
           </div> <!-- carrousel -->
 
@@ -215,69 +162,31 @@ session_start()
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10 mt-5">
-          <h1 class="text-center mb-5 wow fadeInUp">Meus Exames</h1>
+          <h1 class="text-center mb-5 wow fadeInUp">Meus Clientes</h1>
           <div class="owl-carousel wow fadeInUp" id="myCarrousel">
-            
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                </div>
-              </div>
-            </div>
 
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Maickel Alves</p>
-                </div>
-              </div>
-            </div>
+            <?php
+            if (count($_SESSION['my_patients'])) {
+              foreach ($_SESSION['my_patients'] as $value) {
+            ?>
 
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
+                <div class="item">
+                  <div class="card-doctor">
+                    <div class="header">
+                      <img src="../assets/img/place_holder.png" alt="">
+                      <div class="meta">
+                        <abbr title="Ver histórico de exames do paciente"><a href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value['patient'] ?>"><span class="mai-search"></span></a></abbr>
+                      </div>
+                    </div>
+                    <div class="body">
+                      <p class="text-xl mb-1"><?= $value['patient_name'] ?></p>
+                    </div>
                   </div>
                 </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Lucas Silva</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Bruno Pires</p>
-                </div>
-
-              </div> <!-- card-doctor -->
-            </div> <!-- item -->
+            <?php
+              }
+            }
+            ?>
 
           </div> <!-- carrousel -->
 
@@ -292,83 +201,32 @@ session_start()
         <div class="col-lg-10 mt-5">
           <h1 class="text-center mb-5 wow fadeInUp">Solicitações de exames</h1>
           <div class="owl-carousel wow fadeInUp" id="requestCarrousel">
-            
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Confirmar exame"><a href="#"><span class="mai-add"></span></a></abbr>
-                    <abbr title="Não aceitar exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-              </div>
-            </div>
 
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Confirmar exame"><a href="#"><span class="mai-add"></span></a></abbr>
-                    <abbr title="Não aceitar exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-              </div>
-            </div>
+            <?php
+            if (count($_SESSION['wait_exams'])) {
+              foreach ($_SESSION['wait_exams'] as $value) {
+            ?>
 
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Confirmar exame"><a href="#"><span class="mai-add"></span></a></abbr>
-                    <abbr title="Não aceitar exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
+                <div class="item">
+                  <div class="card-doctor">
+                    <div class="header">
+                      <img src="../assets/img/place_holder.png" alt="">
+                      <div class="meta">
+                        <abbr title="Confirmar exame"><a href="#" onclick="acceptExam('<?php echo  $_SESSION['user'] ?>', '<?= $value->patient ?>', '<?= $value->date ?>')"><span class="mai-add"></span></a></abbr>
+                        <abbr title="Não aceitar exame"><a href="#" onclick="denialExam('<?php echo  $_SESSION['user'] ?>', '<?= $value->patient ?>', '<?= $value->date ?>')"><span class="mai-remove"></span></a></abbr>
+                        <abbr title="Ver histórico de exames do paciente"><a href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
+                      </div>
+                    </div>
+                    <div class="body">
+                      <p class="text-xl mb-1"><?= $value->patient_name ?></p>
+                      <span class="text-sm text-grey"><?= str_replace("-", "/", $value->date) ?></span>
+                    </div>
                   </div>
                 </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                  <div class="meta">
-                    <abbr title="Confirmar exame"><a href="#"><span class="mai-add"></span></a></abbr>
-                    <abbr title="Não aceitar exame"><a href="#"><span class="mai-remove"></span></a></abbr>
-                    <abbr title="Ver histórico de exames do paciente"><a href="exams-history.php"><span
-                          class="mai-search"></span></a></abbr>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Sangue</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-
-              </div> <!-- card-doctor -->
-            </div> <!-- item -->
+            <?php
+              }
+            }
+            ?>
 
           </div> <!-- carrousel -->
 
@@ -377,75 +235,74 @@ session_start()
     </div> <!-- container -->
   </div> <!-- page -->
 
-      
-    <footer class="page-footer">
-      <div class="container">
-        <div class="row px-md-3">
-          <div class="col-sm-6 col-lg-3 py-3">
-            <h5>Compania</h5>
-            <ul class="footer-menu">
-              <li><a href="#">Sobre Nós</a></li>
-              <li><a href="#">Carreira</a></li>
-              <li><a href="#">Nosso Time</a></li>
-              <li><a href="#">Proteção</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-6 col-lg-3 py-3">
-            <h5>Mais</h5>
-            <ul class="footer-menu">
-              <li><a href="#">Termos & Condições</a></li>
-              <li><a href="#">Privacidade</a></li>
-              <li><a href="#">Anúncios</a></li>
-              <li><a href="login.php">Entre no nosso time</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-6 col-lg-3 py-3">
-            <h5>Nossos parceiros</h5>
-            <ul class="footer-menu">
-              <li><a href="#">C3</a></li>
-              <li><a href="#">FURG</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-6 col-lg-3 py-3">
-            <h5>Contato</h5>
-            <p class="footer-link mt-2">351 Willow Street Franklin, MA 02038</p>
-            <a href="#" class="footer-link">701-573-7582</a>
-            <h2></h2>
-            <a href="#" class="footer-link">c3health@furg.br</a>
 
-            <h5 class="mt-3">Social Media</h5>
-            <div class="footer-sosmed mt-3">
-              <a href="#" target="_blank"><span class="mai-logo-facebook-f"></span></a>
-              <a href="#" target="_blank"><span class="mai-logo-twitter"></span></a>
-              <a href="#" target="_blank"><span class="mai-logo-google-plus-g"></span></a>
-              <a href="#" target="_blank"><span class="mai-logo-instagram"></span></a>
-              <a href="#" target="_blank"><span class="mai-logo-linkedin"></span></a>
-            </div>
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row px-md-3">
+        <div class="col-sm-6 col-lg-3 py-3">
+          <h5>Compania</h5>
+          <ul class="footer-menu">
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Carreira</a></li>
+            <li><a href="#">Nosso Time</a></li>
+            <li><a href="#">Proteção</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-lg-3 py-3">
+          <h5>Mais</h5>
+          <ul class="footer-menu">
+            <li><a href="#">Termos & Condições</a></li>
+            <li><a href="#">Privacidade</a></li>
+            <li><a href="#">Anúncios</a></li>
+            <li><a href="login.php">Entre no nosso time</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-lg-3 py-3">
+          <h5>Nossos parceiros</h5>
+          <ul class="footer-menu">
+            <li><a href="#">C3</a></li>
+            <li><a href="#">FURG</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-lg-3 py-3">
+          <h5>Contato</h5>
+          <p class="footer-link mt-2">351 Willow Street Franklin, MA 02038</p>
+          <a href="#" class="footer-link">701-573-7582</a>
+          <h2></h2>
+          <a href="#" class="footer-link">c3health@furg.br</a>
+
+          <h5 class="mt-3">Social Media</h5>
+          <div class="footer-sosmed mt-3">
+            <a href="#" target="_blank"><span class="mai-logo-facebook-f"></span></a>
+            <a href="#" target="_blank"><span class="mai-logo-twitter"></span></a>
+            <a href="#" target="_blank"><span class="mai-logo-google-plus-g"></span></a>
+            <a href="#" target="_blank"><span class="mai-logo-instagram"></span></a>
+            <a href="#" target="_blank"><span class="mai-logo-linkedin"></span></a>
           </div>
         </div>
-
-        <hr>
-
-        <p id="copyright">Copyright &copy; 2021 Todos os direitos reservados.</p>
       </div>
-    </footer>
 
-    <script src="../assets/js/jquery-3.5.1.min.js"></script>
+      <hr>
 
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+      <p id="copyright">Copyright &copy; 2021 Todos os direitos reservados.</p>
+    </div>
+  </footer>
 
-    <script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+  <script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-    <script src="../assets/vendor/wow/wow.min.js"></script>
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../assets/js/google-maps.js"></script>
+  <script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
 
-    <script src="../assets/js/theme.js"></script>
+  <script src="../assets/vendor/wow/wow.min.js"></script>
 
-    <script src="../assets/js/home.js"></script>
+  <script src="../assets/js/google-maps.js"></script>
 
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIA_zqjFMsJM_sxP9-6Pde5vVCTyJmUHM&callback=initMap"></script>
+  <script src="../assets/js/theme.js"></script>
+
+  <script src="../assets/js/home.js"></script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIA_zqjFMsJM_sxP9-6Pde5vVCTyJmUHM&callback=initMap"></script>
 
 </body>
 

@@ -48,6 +48,7 @@ class homeController
 
     public function logar($params)
     {
+
         $patients = new patient();
         $doctors = new doctor();
         $laboratories = new laboratory();
@@ -65,21 +66,22 @@ class homeController
 
         if ($patient) {
             if ($patient->email == $params['email']) {
-                $_SESSION['user'] = $params['email'];
+                $_SESSION['user'] = (string) $patient->cpf;
                 $_SESSION['typeUser'] = "patient";
                 $returnJSON['success'] = true;
             }
         }
         if ($doctor) {
             if ($doctor->email == $params['email']) {
-                $_SESSION['user'] = $params['email'];
+                $_SESSION['user'] = (string) $doctor->crm;
                 $_SESSION['typeUser'] = "doctor";
+                $_SESSION['specialty'] = (string) $doctor->specialty;
                 $returnJSON['success'] = true;
             }
         }
         if ($laboratory) {
             if ($laboratory->email == $params['email']) {
-                $_SESSION['user'] = $params['email'];
+                $_SESSION['user'] = (string) $laboratory->cnpj;
                 $_SESSION['typeUser'] = "laboratory";
                 $returnJSON['success'] = true;
             }
@@ -98,35 +100,7 @@ switch ($action) {
     case 'logar':
         $home_controller->logar($params);
         break;
-    case 'store':
-        $home_controller->store($params);
-        break;
+        // case 'store':
+        //     $home_controller->store($params);
+        //     break;
 }
-
-// $params = array(
-//     'name' => "André Lima Barros",
-//     'address' => "Marechal Floreano #964",
-//     'phone_number' => "(51)3231-9564",
-//     'email' => "andre.barros@stacasa.com.br",
-//     'gender' => "não quero manifestar",
-//     'age' => '12',
-//     'cpf' => "666.999.555-77",
-// );
-
-// $Patient->store($params);
-
-// $params = array(
-//     'name' => "Marcela Lima Barros",
-//     'gender' => "feminino",
-//     'address' => "Marechal Floreano  Peixoto #964",
-//     'phone_number' => "(51)3232-9664",
-//     'email' => "marcelo.barros@stacasa.com.br",
-//     'age' => "50",
-//     'cpf' => "666.999.555-77",
-// );
-
-// $Patient->edit($params);
-
-// $Patient->index();
-
-// $Patient->show($params['cpf']);

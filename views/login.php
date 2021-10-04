@@ -36,6 +36,8 @@
                 document.getElementById("exam1").style.display = 'none';
                 document.getElementById('exams2').style.display = 'none';
                 document.getElementById("exam2").style.display = 'none';
+                document.getElementById('exams3').style.display = 'none';
+                document.getElementById("exam3").style.display = 'none';
                 document.getElementById('gender').style.display = 'none';
                 document.getElementById('age').style.display = 'none';
                 document.getElementById('crm').style.display = 'none';
@@ -64,6 +66,8 @@
                 document.getElementById("exam1").style.display = 'none';
                 document.getElementById('exams2').style.display = 'none';
                 document.getElementById("exam2").style.display = 'none';
+                document.getElementById('exams3').style.display = 'none';
+                document.getElementById("exam3").style.display = 'none';
                 document.getElementById('gender').style.display = 'none';
                 document.getElementById('age').style.display = 'none';
                 document.getElementById('crm').style.display = 'block';
@@ -92,6 +96,8 @@
                 document.getElementById("exam1").style.display = 'block';
                 document.getElementById('exams2').style.display = 'block';
                 document.getElementById("exam2").style.display = 'block';
+                document.getElementById('exams3').style.display = 'block';
+                document.getElementById("exam3").style.display = 'block';
                 document.getElementById('gender').style.display = 'none';
                 document.getElementById('age').style.display = 'none';
                 document.getElementById('crm').style.display = 'none';
@@ -123,6 +129,8 @@
                 document.getElementById("exam1").style.display = 'none';
                 document.getElementById('exams2').style.display = 'none';
                 document.getElementById("exam2").style.display = 'none';
+                document.getElementById('exams3').style.display = 'none';
+                document.getElementById("exam3").style.display = 'none';
                 document.getElementById('gender').style.display = 'block';
                 document.getElementById('age').style.display = 'block';
                 document.getElementById('crm').style.display = 'none';
@@ -223,7 +231,10 @@
                                             <option value="Clinico Geral">Clínico Geral</option>
                                         </select> </div>
                                     <div class="group"> <label for="pass" class="label" id="examlabel" style="display: none;">Tipos de exame</label>
-                                        <div style="display: flex;"> <input id="exams1" type="checkbox" class="check" style="display: none; padding: 10px;"> <label for="check" id=exam1 style="display: none; padding: 10px;"> Sangue </label> <input id="exams2" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam2 style="display: none; padding: 10px;"> Endoscopia </label> </div>
+                                        <div style="display: flex;"> <input id="exams1" type="checkbox" class="check" style="display: none; padding: 10px;"> <label for="check" id=exam1 style="display: none; padding: 10px;"> Sangue </label>
+                                            <input id="exams2" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam2 style="display: none; padding: 10px;"> Endoscopia </label>
+                                            <input id="exams3" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam3 style="display: none; padding: 10px;"> Hepatites </label>
+                                        </div>
                                     </div>
                                     <div class="group"> <label for="pass" class="label" id="genlabel" style="display: none;">Gênero</label> <select class="select" id="gender" name="select" style="display: none;" onchange=this.value>
                                             <option value="none">-- Selecione o seu gênero --</option>

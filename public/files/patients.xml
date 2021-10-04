@@ -1,39 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <patients>
     <patient>
-        <name>Daniel dos Santos Lima</name>
-        <address>Andradas #235</address>
-        <phone_number>(53)2125-7430</phone_number>
-        <email>daniel.lima@unimed.com.br</email>
-        <gender>masculino</gender>
-        <age>63</age>
-        <cpf>333.111.222-44</cpf>
-    </patient>
-    <patient>
-        <name>Marcela Lima Barros</name>
-        <address>Marechal Floreano  Peixoto #964</address>
-        <phone_number>(51)3232-9664</phone_number>
-        <email>marcelo.barros@stacasa.com.br</email>
-        <gender>feminino</gender>
-        <age>50</age>
-        <cpf>666.999.555-77</cpf>
-    </patient>
-    <patient>
         <name>Maickel Alves</name>
         <address>Gen. Portinho 108</address>
-        <phone_number>(53)98142-3441</phone_number>
-        <email>maickel.l.alves@gmail.com</email>
-        <gender>masculino</gender>
+        <phone_number>(53) 98142-3441</phone_number>
+        <email>maickelalves@gmail.com</email>
+        <gender>male</gender>
         <age>25</age>
         <cpf>034.081.090-44</cpf>
     </patient>
     <patient>
-        <name>Paciente 1</name>
-        <address>Rua dos Pacientes 111</address>
-        <phone_number>(53) 98411-1111</phone_number>
-        <email>paciente1@gmail.com</email>
+        <name>Michel Alves</name>
+        <address>Gen. Portinho 808</address>
+        <phone_number>(19) 98142-3441</phone_number>
+        <email>michelalves@gmail.com</email>
         <gender>female</gender>
-        <age>59</age>
+        <age>25</age>
         <cpf>222.222.222-22</cpf>
     </patient>
 </patients>

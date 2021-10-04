@@ -1,5 +1,9 @@
 <?php
+session_start();
 require('../model/examsRecords.php');
+require('../model/laboratory.php');
+require('../model/patient.php');
+require('../model/typeExams.php');
 class examsRecordsController extends examsRecords
 {
 
@@ -24,9 +28,12 @@ class examsRecordsController extends examsRecords
             'patient' => $params['patient'],
             'exam' => $params['exam'],
             'result' => $params['result'],
+            'accept' => 'wait',
         );
 
-        $exams->insertExam($data);
+        $insert = $exams->insertExam($data);
+
+        echo json_encode($insert);
     }
 
     public function edit($params)
@@ -52,30 +59,112 @@ class examsRecordsController extends examsRecords
         $rec = $exams->getOneExam($data);
         var_dump($rec);
     }
+
+    public function acceptExam($params)
+    {
+        $exams_records = new examsRecords();
+
+        $data = array(
+            'date' => $params['date'],
+            'laboratory' => $params['laboratory'],
+            'patient' => $params['patient'],
+        );
+
+        $rec = $exams_records->acceptExam($data);
+
+        echo json_encode($rec);
+    }
+
+    public function denialExam($params)
+    {
+        $exams_records = new examsRecords();
+
+        $data = array(
+            'date' => $params['date'],
+            'doctor' => $params['doctor'],
+            'patient' => $params['patient'],
+        );
+
+        $rec = $exams_records->denialExam($data);
+
+        echo json_encode($rec);
+    }
+
+    public function seeRecords($params)
+    {
+
+        $exams_records = new examsRecords();
+        $laboratory = new laboratory();
+        $patient = new patient();
+        $type_exams = new typeExams();
+
+        $rec = $exams_records->getAllExams();
+
+        $my_recs = array();
+
+        foreach ($rec->record as $value) {
+            if ($_SESSION['typeUser'] == 'laboratory') {
+                if ($params['patient']) {
+                    if ($value->laboratory == trim($params['laboratory']) && $value->patient == trim($params['patient'])) {
+                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
+                        $value['patient_name'] = $patients->name;
+                        $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value->laboratory));
+                        $value['laboratory_name'] = $laboratories->name;
+                        $t_exams = $type_exams->getExam((string)$value->exam);
+                        $value['exam_name'] = $t_exams->name;
+                        $my_recs[] = $value;
+                    }
+                } else {
+                    if (trim($value->laboratory) == trim($params['laboratory'])) {
+                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
+                        $value['patient_name'] = $patients->name;
+                        $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value->laboratory));
+                        $value['laboratory_name'] = $laboratories->name;
+                        $t_exams = $type_exams->getExam((string)$value->exam);
+                        $value['exam_name'] = $t_exams->name;
+                        $my_recs[] = $value;
+                    }
+                }
+            } else if ($_SESSION['typeUser'] == 'patient') {
+                // echo "in";die;
+                if ($value->patient == $_SESSION['user']) {
+                    $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
+                    $value['patient_name'] = $patients->name;
+                    $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value->laboratory));
+                    $value['laboratory_name'] = $laboratories->name;
+                    $t_exams = $type_exams->getExam((string)$value->exam);
+                    $value['exam_name'] = $t_exams->name;
+                    $my_recs[] = $value;
+                }
+            }
+        }
+
+        $_SESSION['patient_record'] = $my_recs;
+
+
+        include '../views/exams-history.php';
+    }
 }
 
-// $exams_controller = new examsRecordsController();
+$exams_record_controller = new examsRecordsController();
 
-// $params = array(
-//     'date' => '15-06-2021',
-//     'laboratory' => '66.666.666/0001-66',
-//     'patient' => '333.111.222-44',
-//     'exam' => '2',
-//     'result' => 'positivo',
-// );
+$params = $_GET;
+$action = isset($_GET['action']) ? $_GET['action'] : NULL;
 
-// $Exams->store($params);
-
-// $params = array(
-//     'date' => '15-06-2021',
-//     'laboratory' => '66.666.666/0001-66',
-//     'patient' => '333.111.222-44',
-//     'exam' => '1',
-//     'result' => 'negativo',
-// );
-
-// $Exams->edit($params);
-
-// $Exams->index();
-
-// $Exams->show($params);
+switch ($action) {
+    case 'index':
+        $exams_record_controller->index();
+        break;
+    case 'store':
+        $exams_record_controller->store($params);
+        break;
+    case 'acceptExam':
+        $exams_record_controller->acceptExam($params);
+        break;
+    case 'denialExam':
+        $exams_record_controller->denialExam($params);
+        break;
+    case 'seeRecords':
+        $exams_record_controller->seeRecords($params);
+        break;
+}

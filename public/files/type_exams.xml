@@ -2,14 +2,14 @@
 <exams>
     <exam>
         <id>1</id>
-        <name>PPD</name>
+        <name>Sangue</name>
     </exam>
     <exam>
         <id>2</id>
-        <name>Hepatite A</name>
+        <name>Endoscopia</name>
     </exam>
     <exam>
         <id>3</id>
-        <name>Hepatite B</name>
+        <name>Hepatites</name>
     </exam>
 </exams>

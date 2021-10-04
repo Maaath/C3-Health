@@ -1,9 +1,10 @@
 <?php
-session_start()
+session_start();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,8 +25,10 @@ session_start()
 
   <link rel="stylesheet" href="../assets/css/theme.css">
 </head>
-<body>
 
+<body>
+  <span id="session_user" hidden><?= $_SESSION['user'] ?></span>
+  <span id="session_typeuser" hidden><?= isset($_SESSION['typeUser']) ? $_SESSION['typeUser'] : '' ?></span>
   <!-- Back to top button -->
   <div class="back-to-top"></div>
 
@@ -71,34 +74,31 @@ session_start()
         <div class="collapse navbar-collapse" id="navbarSupport">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
+              <a class="nav-link home" href="../views/index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="doctors.php">Nossos médicos</a>
+              <a class="nav-link contact" href="/views/contact.php">Contato</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contato</a>
+              <a class="nav-link appointments" href="/controllers/doctorController.php?action=index">Consultas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="appointment.php">Consultas</a>
+              <a class="nav-link exams" href="/controllers/laboratoryController.php?action=index">Exames</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="exams.php">Exames</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="appointment-history.php">Histórico de consultas</a>
+              <a class="nav-link appointment-history" href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=">Histórico de consultas</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="exams-history.php">Histórico de exames</a>
+              <a class="nav-link exams-history" href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=">Histórico de exames</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="make-appointment.php">Marcar consulta</a>
+              <a class="nav-link make-appointment" href="/views/make-appointment.php">Marcar consulta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="make-exam.php">Marcar exame</a>
+              <a class="nav-link make-exam" href="/views/make-exam.php">Marcar exame</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="login.php">Entrar / Registrar</a>
+              <a class="btn btn-primary ml-lg-3 login" href="/views/login.php">Entrar / Registrar</a>
             </li>
           </ul>
         </div> <!-- .navbar-collapse -->
@@ -126,83 +126,34 @@ session_start()
         <div class="col-lg-10 mt-5">
           <h1 class="text-center mb-5 wow fadeInUp" style="color: #00D9A5 ;">Exames Anteriores</h1>
           <div class="owl-carousel wow fadeInUp" id="myCarrousel">
-            
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Lab. Teste</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-                <div class="body">
-                    <span class="text-sm text-grey">Endoscopia</span>
-                </div>
-                <div class="body">
-                    <a href="#"><span class="text-sm text-grey">resultado.pdf</span></a>
-                </div>
-              </div>
-            </div>
 
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
+            <?php
+            if (count($_SESSION['patient_record'])) {
+              foreach ($_SESSION['patient_record'] as $value) {
+            ?>
+                <div class="item">
+                  <div class="card-doctor">
+                    <div class="header">
+                      <img src="../assets/img/place_holder.png" alt="">
+                    </div>
+                    <div class="body">
+                      <p class="text-xl mb-1"><?= $value['patient_name'] ?></p>
+                      <p class="text mb-1" style="color: red;"><?= $value['laboratory_name'] ?></p>
+                      <span class="text-sm text-grey"><?= str_replace("-", "/", $value->date) ?></span>
+                    </div>
+                    <div class="body">
+                      <span class="text-sm text-grey"><?= $value['exam_name'] ?></span>
+                    </div>
+                    <div class="body">
+                      <span class="text-sm text-grey"><?= $value->result ?></span>
+                    </div>
+                  </div>
                 </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Lab. Teste</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-                <div class="body">
-                    <span class="text-sm text-grey">Endoscopia</span>
-                </div>
-                <div class="body">
-                    <a href="#"><span class="text-sm text-grey">resultado.pdf</span></a>
-                </div>
-              </div>
-            </div>
+            <?php
 
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Lab. Teste</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-                <div class="body">
-                    <span class="text-sm text-grey">Endoscopia</span>
-                </div>
-                <div class="body">
-                    <a href="#"><span class="text-sm text-grey">resultado.pdf</span></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="../assets/img/place_holder.png" alt="">
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-1">Matheus Macedo</p>
-                  <p class="text mb-1" style="color: red;">Lab. Teste</p>
-                  <span class="text-sm text-grey">15/10/21 as 17:20 h</span>
-                </div>
-                <div class="body">
-                    <span class="text-sm text-grey">Endoscopia</span>
-                </div>
-                <div class="body">
-                    <a href="#"><span class="text-sm text-grey">resultado.pdf</span></a>
-                </div>
-              </div>
-            </div> <!-- item -->
-
+              }
+            }
+            ?>
           </div> <!-- carrousel -->
 
         </div> <!-- col -->
@@ -210,7 +161,7 @@ session_start()
     </div> <!-- container -->
   </div> <!-- page -->
 
-<footer class="page-footer">
+  <footer class="page-footer">
     <div class="container">
       <div class="row px-md-3">
         <div class="col-sm-6 col-lg-3 py-3">
@@ -262,21 +213,22 @@ session_start()
     </div>
   </footer>
 
-<script src="../assets/js/jquery-3.5.1.min.js"></script>
+  <script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
 
-<script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+  <script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
 
-<script src="../assets/vendor/wow/wow.min.js"></script>
+  <script src="../assets/vendor/wow/wow.min.js"></script>
 
-<script src="../assets/js/google-maps.js"></script>
+  <script src="../assets/js/google-maps.js"></script>
 
-<script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/theme.js"></script>
 
-<script src="../assets/js/home.js"></script>
+  <script src="../assets/js/home.js"></script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIA_zqjFMsJM_sxP9-6Pde5vVCTyJmUHM&callback=initMap"></script>
-  
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIA_zqjFMsJM_sxP9-6Pde5vVCTyJmUHM&callback=initMap"></script>
+
 </body>
+
 </html>
