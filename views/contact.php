@@ -129,15 +129,15 @@ session_start()
         <div class="row mb-3">
           <div class="col-sm-6 py-2 wow fadeInLeft">
             <label for="fullName">Nome</label>
-            <input type="text" id="fullName" class="form-control" placeholder="Digite o seu nome">
+            <input type="text" id="fullName" class="form-control" placeholder="Digite o seu nome" required>
           </div>
           <div class="col-sm-6 py-2 wow fadeInRight">
             <label for="emailAddress">Email</label>
-            <input type="text" id="emailAddress" class="form-control" placeholder="Digite o seu email">
+            <input type="text" id="emailAddress" class="form-control" placeholder="Digite o seu email" required>
           </div>
           <div class="col-12 py-2 wow fadeInUp">
             <label for="subject">Assunto</label>
-            <input type="text" id="subject" class="form-control" placeholder="Digite o assunto da mensagem">
+            <input type="text" id="subject" class="form-control" placeholder="Digite o assunto da mensagem" required>
           </div>
           <div class="col-12 py-2 wow fadeInUp">
             <label for="message">Mensagem</label>
