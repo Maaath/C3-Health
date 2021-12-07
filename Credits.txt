@@ -1,3 +1,20 @@
+
+O Template abaixo foi modificado por (Matheus Macedo e Maickel Alves) e adaptado de acordo 
+com as nossas necessidades e seguindo as licenças especificadas em :
+https://creativecommons.org/licenses/by/4.0/. 
+
+
+========================================================================================
+
+Template Name: One-health
+Template URI: https://macodeid.com/projects/one-health
+Copyright: MACode ID, https://macodeid.com/
+License: Creative Commons 4.0
+License URI: https://creativecommons.org/licenses/by/4.0/
+Version: 1.0
+
+========================================================================================
+
 Stylesheet & Script
 
 Animate CSS =
@@ -29,4 +46,5 @@ Font icons
 Maicons icons =
 site: https://macodeid.com/maicons
 
+========================================================================================
 

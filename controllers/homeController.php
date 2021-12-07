@@ -7,44 +7,8 @@ class homeController
 
     public function index()
     {
-        // $patient = new patient();
-        // $pat = $patient->getAllPatients();
-        // print_r($pat);
+        
     }
-
-    // public function store($params)
-    // {
-    // $patients = new patient();
-
-    // $data = array(
-    //     'name' => $params['name'],
-    //     'address' => $params['address'],
-    //     'phone_number' => $params['phone_number'],
-    //     'email' => $params['email'],
-    //     'gender' => $params['gender'],
-    //     'age' => $params['age'],
-    //     'cpf' => $params['cpf'],
-    // );
-
-    // $patients->insertPatient($data);
-    // }
-
-    // public function edit($params)
-    // {
-    //     $patients = new patient();
-
-    //     $data = array(
-    //         'name' => $params['name'],
-    //         'address' => $params['address'],
-    //         'phone_number' => $params['phone_number'],
-    //         'email' => $params['email'],
-    //         'gender' => $params['gender'],
-    //         'age' => $params['age'],
-    //         'cpf' => $params['cpf'],
-    //     );
-
-    //     $patients->editPatient($data);
-    // }
 
     public function logar($params)
     {
@@ -100,7 +64,5 @@ switch ($action) {
     case 'logar':
         $home_controller->logar($params);
         break;
-        // case 'store':
-        //     $home_controller->store($params);
-        //     break;
+        
 }

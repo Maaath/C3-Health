@@ -144,9 +144,6 @@ class appointmentsRecordsController extends appointmentsRecords
             }
         }
 
-        // var_dump($my_recs[0]['patient_name']);
-        // die;
-
         $_SESSION['patient_record'] = $my_recs;
 
 
@@ -176,27 +173,3 @@ switch ($action) {
         $appointments_record_controller->seeRecords($params);
         break;
 }
-
-// $params = array(
-//     'date' => "09-09-2021",
-//     'doctor' => "33355555-1",
-//     'patient' => "333.111.222-44",
-//     'prescription' => "doctor's prescription",
-//     'obs' => "doctor's observation",
-// );
-
-// $appointments_record->store($params);
-
-// $params = array(
-//     'date' => "09-09-2021",
-//     'doctor' => "33355555-1",
-//     'patient' => "333.111.222-44",
-//     'prescription' => "doctor's prescription updated",
-//     'obs' => "doctor's observation updated",
-// );
-
-// $appointments_record->edit($params);
-
-// $appointments_record->index();
-
-// $appointments_record->show($params);

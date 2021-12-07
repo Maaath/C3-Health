@@ -10,10 +10,6 @@ class laboratoryController extends laboratory
     {
         $exams_records = new examsRecords();
         $patients = new patient();
-        
-        
-        // var_dump();die;
-        
         $recs = (array) $exams_records->getAllExams();
         
         // get wait exams

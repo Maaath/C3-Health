@@ -65,30 +65,3 @@ switch ($action) {
         $patient_controller->store($params);
         break;
 }
-// $params = array(
-//     'name' => "André Lima Barros",
-//     'address' => "Marechal Floreano #964",
-//     'phone_number' => "(51)3231-9564",
-//     'email' => "andre.barros@stacasa.com.br",
-//     'gender' => "não quero manifestar",
-//     'age' => '12',
-//     'cpf' => "666.999.555-77",
-// );
-
-// $Patient->store($params);
-
-// $params = array(
-//     'name' => "Marcela Lima Barros",
-//     'gender' => "feminino",
-//     'address' => "Marechal Floreano  Peixoto #964",
-//     'phone_number' => "(51)3232-9664",
-//     'email' => "marcelo.barros@stacasa.com.br",
-//     'age' => "50",
-//     'cpf' => "666.999.555-77",
-// );
-
-// $Patient->edit($params);
-
-// $Patient->index();
-
-// $Patient->show($params['cpf']);
