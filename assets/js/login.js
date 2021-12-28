@@ -8,7 +8,7 @@ function login() {
     password = password.replaceAll('/', '');
 
     $.ajax({
-        url: "/controllers/homeController.php",
+        url: "/app/controllers/homeController.php",
         contentType: 'application/json',
         data: {
             email: user,
@@ -17,7 +17,7 @@ function login() {
         },
         dataType: "json",
         success: function(data) {
-            data.success ? window.location.href = "/views/index.php" : alert(data.message);
+            data.success ? window.location.href = "/app/views/index.php" : alert(data.message);
         },
         error: function(data) {
             alert("erro ao efetuar o login");
@@ -46,7 +46,7 @@ function cadastrar() {
     if (!$('#exams1').is(":checked")) exam.splice(0, 1);
 
     if (usertype == 'doctor') {
-        var url = "/controllers/doctorController.php";
+        var url = "/app/controllers/doctorController.php";
         var data = {
             name,
             email,
@@ -57,7 +57,7 @@ function cadastrar() {
             action: 'store'
         };
     } else if (usertype == 'lab') {
-        var url = "/controllers/laboratoryController.php";
+        var url = "/app/controllers/laboratoryController.php";
         var data = {
             name,
             email,
@@ -68,7 +68,7 @@ function cadastrar() {
             action: 'store'
         };
     } else if (usertype == 'pat') {
-        var url = "/controllers/patientController.php";
+        var url = "/app/controllers/patientController.php";
         var data = {
             name,
             email,
@@ -88,7 +88,7 @@ function cadastrar() {
         dataType: "json",
         success: function(data) {
             alert(data.message);
-            if (data.success) window.location.href = "/views/login.php";
+            if (data.success) window.location.href = "/app/views/login.php";
         },
         error: function(data) {
             alert("erro ao efetuar o cadastro");

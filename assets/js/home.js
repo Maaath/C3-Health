@@ -61,7 +61,7 @@ function makeAppointment() {
     };
 
     $.ajax({
-        url: "/controllers/appointmentsRecordsController.php",
+        url: "/app/controllers/appointmentsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -101,7 +101,7 @@ function makeExam() {
     };
 
     $.ajax({
-        url: "/controllers/examsRecordsController.php",
+        url: "/app/controllers/examsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -126,7 +126,7 @@ function acceptAppointment(doctor, patient, date) {
     };
 
     $.ajax({
-        url: "/controllers/appointmentsRecordsController.php",
+        url: "/app/controllers/appointmentsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -150,7 +150,7 @@ function denialAppointment(doctor, patient, date) {
     };
 
     $.ajax({
-        url: "/controllers/appointmentsRecordsController.php",
+        url: "/app/controllers/appointmentsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -172,7 +172,7 @@ function seePatientRecords(doctor, patient) {
     };
 
     $.ajax({
-        url: "/controllers/appointmentsRecordsController.php",
+        url: "/app/controllers/appointmentsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -197,7 +197,7 @@ function acceptExam(laboratory, patient, date) {
     };
 
     $.ajax({
-        url: "/controllers/examsRecordsController.php",
+        url: "/app/controllers/examsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -221,7 +221,7 @@ function denialExam(laboratory, patient, date) {
     };
 
     $.ajax({
-        url: "/controllers/examsRecordsController.php",
+        url: "/app/controllers/examsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
@@ -243,7 +243,7 @@ function seePatientRecords(doctor, patient) {
     };
 
     $.ajax({
-        url: "/controllers/appointmentsRecordsController.php",
+        url: "/app/controllers/appointmentsRecordsController.php",
         contentType: 'application/json',
         data: data,
         dataType: "json",
