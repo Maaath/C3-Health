@@ -68,6 +68,7 @@ class laboratoryController extends laboratory
 
     public function store($params)
     {
+       
         $laboratories = new laboratory();
 
         $data = array(
@@ -97,7 +98,9 @@ class laboratoryController extends laboratory
             'cnpj' => $params['cnpj'],
         );
 
-        $laboratories->editLaboratory($data);
+        $update = $laboratories->editLaboratory($data);
+
+        echo json_encode($update);
     }
 
     public function show($cnpj)
@@ -120,5 +123,8 @@ switch ($action) {
         break;
     case 'index':
         $laboratory_controller->index();
+        break;
+    case 'edit':
+        $laboratory_controller->edit($params);
         break;
 }

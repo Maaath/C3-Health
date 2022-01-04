@@ -12,27 +12,26 @@ class laboratory
 
     function getAllLaboratories()
     {
-        $xml = simplexml_load_file('./../../public/files/laboratories.xml');
 
-        if ($xml === false) {
-            echo "Falha ao Carregar o XML: ";
-            foreach (libxml_get_errors() as $error) {
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-                echo "<br>", $error->message;
-            }
-        } else {
-            return $xml;
-        }
+        $laboratories = $client->Health->laboratories;
+
+        $result = $laboratories->find();
+
+        return $result;
     }
 
     function getLaboratory($cnpj)
     {
-        $file = './../../public/files/laboratories.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $laboratories = simplexml_load_file($file);
+        $laboratories = $client->Health->laboratories;
 
-        foreach ($laboratories->laboratory as $lab) {
-            if (str_replace(array('-', '.', '/'), "", $lab->cnpj) == $cnpj) {
+        $result = $laboratories->find();
+
+        foreach ($result as $lab) {
+            if (str_replace(array('-', '.', '/'), "", $lab['cnpj']) == str_replace(array('-', '.', '/'), "", $cnpj)) {
                 return $lab;
             }
         }
@@ -41,85 +40,110 @@ class laboratory
     function insertLaboratory($data)
     {
 
-        $file = "./../../public/files/laboratories.xml";
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $laboratories = $client->Health->laboratories;
+        $lab_exam = $client->Health->lab_exam;
 
-        $laboratories = $xml;
+        $result = $laboratories->find();
 
         $salvar = true;
 
-        foreach ($laboratories as $lab) {
-            if ($lab->cnpj == $data['cnpj']) $salvar = false;
+        foreach ($result as $lab) {
+            if ($lab['cnpj'] == $data['cnpj']) $salvar = false;
         }
 
+        $dataToSave = array(
+            'name' => $data['name'],
+            'address' => $data['address'],
+            'phone_number' => $data['phone_number'],
+            'email' => $data['email'],
+            'cnpj' => $data['cnpj'],
+        );
+
+        $return = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
+
         if ($salvar) {
+            $laboratories->insertOne($dataToSave);
 
-            $laboratory = $laboratories->addChild("laboratory");
-            $laboratory->addChild("name", $data['name']);
-            $laboratory->addChild("address", $data['address']);
-            $laboratory->addChild("phone_number", $data['phone_number']);
-            $laboratory->addChild("email", $data['email']);
-            $exams = $laboratory->addChild("exams");
-            foreach ($data['exams'] as $exam) {
-                $exams->addChild('exam', $exam);
+            $laboratory = $this->getLaboratory($data['cnpj']);
+
+
+            foreach ($data['exams'] as $key => $value) {
+                $dataToSave = array(
+                    'exams_id' => $value,
+                    'laboratory_id' => (string)$laboratory['_id']
+                );
+
+                $lab_exam->insertOne($dataToSave);
             }
-            $laboratory->addChild("cnpj", $data['cnpj']);
 
-            $xml->asXML($file);
-
-            $retorno = array(
+            $return = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
             );
-        } else {
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
-            );
         }
 
-        return $retorno;
+        return $return;
     }
 
     function editLaboratory($data)
     {
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $file = "./../../public/files/laboratories.xml";
+        $laboratories = $client->Health->laboratories;
+        $lab_exam = $client->Health->lab_exam;
 
-        $laboratories = simplexml_load_file($file);
+        $result = $laboratories->find();
 
         $salvar = false;
 
-        foreach ($laboratories->laboratory as $lab) {
-            if ($lab->cnpj == $data['cnpj']) {
+        foreach ($result as $lab) {
+            if ($lab['cnpj'] == $data['cnpj']) {
 
                 $salvar = true;
 
-                $lab->name = $data['name'];
-                $lab->address = $data['address'];
-                $lab->phone_number = $data['phone_number'];
-                $lab->email = $data['email'];
-                unset($lab->exams);
-                $exams = $lab->addChild("exams");
-                foreach ($data['exams'] as $exam) {
-                    $exams->addChild('exam', $exam);
-                }
+                $dataToSave = array(
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'phone_number' => $data['phone_number'],
+                    'email' => $data['email'],
+                    'cnpj' => $data['cnpj'],
+                );
+
+                $condition = array('laboratory_id' => (string)$lab['_id']);
+
+                $lab_exam->deleteMany($condition);
+
+                $condition = array('cnpj' => $lab['cnpj']);
             }
         }
 
-        if ($salvar) {
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
 
-            $laboratories->asXML($file);
+        if ($salvar) {
+            $laboratories->updateOne($condition, array('$set' => $dataToSave));
+
+            $laboratory = $this->getLaboratory($data['cnpj']);
+
+            foreach ($data['exams'] as $key => $value) {
+                $dataToSave = array(
+                    'exams_id' => $value,
+                    'laboratory_id' => (string)$laboratory['_id']
+                );
+
+                $lab_exam->insertOne($dataToSave);
+            }
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
-            );
-        } else {
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
             );
         }
 

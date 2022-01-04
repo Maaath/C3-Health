@@ -20,7 +20,7 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
-    padding: 50px 70px 50px 70px;
+    padding: 50px 60px 50px 60px;
     background: rgba(0, 77, 77, .9)
 }
 
@@ -91,11 +91,10 @@ body {
     background: rgba(255, 255, 255, .1)
 }
 
-.sign-up-form .group .select{
+.sign-up-form .group .select {
     width: 100%;
     color: #111;
     display: block
-
 }
 
 .login-space .group input[data-type="password"] {
@@ -206,8 +205,9 @@ a {
 
 .foot:hover {
     text-decoration: underline blue;
-    color:rgba(0, 0, 255, 0.63);
+    color: rgba(0, 0, 255, 0.63);
 }
+
 .card {
     width: 500px;
     left: 100px
@@ -215,4 +215,9 @@ a {
 
 ::placeholder {
     color: #b3b3b3
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
 }

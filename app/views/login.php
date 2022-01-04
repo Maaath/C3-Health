@@ -28,12 +28,7 @@
                 document.getElementById('phone').style.display = 'none';
                 document.getElementById('email').style.display = 'none';
                 document.getElementById('specialty').style.display = 'none';
-                document.getElementById('exams1').style.display = 'none';
-                document.getElementById("exam1").style.display = 'none';
-                document.getElementById('exams2').style.display = 'none';
-                document.getElementById("exam2").style.display = 'none';
-                document.getElementById('exams3').style.display = 'none';
-                document.getElementById("exam3").style.display = 'none';
+                document.getElementById('typeexam').style.display = 'none';
                 document.getElementById('gender').style.display = 'none';
                 document.getElementById('age').style.display = 'none';
                 document.getElementById('crm').style.display = 'none';
@@ -44,7 +39,6 @@
                 document.getElementById("phonelabel").style.display = 'none';
                 document.getElementById("elabel").style.display = 'none';
                 document.getElementById("speclabel").style.display = 'none';
-                document.getElementById("examlabel").style.display = 'none';
                 document.getElementById("genlabel").style.display = 'none';
                 document.getElementById("agelabel").style.display = 'none';
                 document.getElementById("crmlabel").style.display = 'none';
@@ -52,18 +46,13 @@
                 document.getElementById("cnpjlabel").style.display = 'none';
                 document.getElementById("submit").style.display = 'none';
             } else if (val === "doctor") {
-
+                $(".exams").empty();
                 document.getElementById('name').style.display = 'block';
                 document.getElementById('address').style.display = 'block';
                 document.getElementById('phone').style.display = 'block';
                 document.getElementById('email').style.display = 'block';
                 document.getElementById('specialty').style.display = 'block';
-                document.getElementById('exams1').style.display = 'none';
-                document.getElementById("exam1").style.display = 'none';
-                document.getElementById('exams2').style.display = 'none';
-                document.getElementById("exam2").style.display = 'none';
-                document.getElementById('exams3').style.display = 'none';
-                document.getElementById("exam3").style.display = 'none';
+                document.getElementById('typeexam').style.display = 'none';
                 document.getElementById('gender').style.display = 'none';
                 document.getElementById('age').style.display = 'none';
                 document.getElementById('crm').style.display = 'block';
@@ -74,7 +63,6 @@
                 document.getElementById("phonelabel").style.display = 'block';
                 document.getElementById("elabel").style.display = 'block';
                 document.getElementById("speclabel").style.display = 'block';
-                document.getElementById("examlabel").style.display = 'none';
                 document.getElementById("genlabel").style.display = 'none';
                 document.getElementById("agelabel").style.display = 'none';
                 document.getElementById("crmlabel").style.display = 'block';
@@ -83,17 +71,38 @@
                 document.getElementById("submit").style.display = 'block';
             } else if (val === "lab") {
 
+                $.ajax({
+                    url: "/app/controllers/examsRecordsController.php",
+                    contentType: 'application/json',
+                    data: {
+                        'action': 'getTypeExams'
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        let exam_type = data.reduce(function(acc, curr, index) {
+                            curr = Object.entries(curr);
+                            new_value = `${acc} 
+                                        <div style="display: flex;"> 
+                                            <input id="exams_${curr[0][0]}" type="checkbox" class="check" style="display: block;margin:10px 0px"> <label for="check" id=exam_${curr[0][0]} style="display:block; padding: 10px;"> ${curr[0][1]} </label> 
+                                        </div> `;
+                            return new_value;
+                        }, '');
+                        $('.exams').append(exam_type);
+                        // console.log(exam_type);
+                        // if (data.success) window.location.href = "/views/login.php";
+                    },
+                    error: function(data) {
+                        alert("erro ao efetuar o cadastro");
+                    }
+
+                });
+
                 document.getElementById('name').style.display = 'block';
                 document.getElementById('address').style.display = 'block';
                 document.getElementById('phone').style.display = 'block';
                 document.getElementById('email').style.display = 'block';
                 document.getElementById('specialty').style.display = 'none';
-                document.getElementById('exams1').style.display = 'block';
-                document.getElementById("exam1").style.display = 'block';
-                document.getElementById('exams2').style.display = 'block';
-                document.getElementById("exam2").style.display = 'block';
-                document.getElementById('exams3').style.display = 'block';
-                document.getElementById("exam3").style.display = 'block';
+                document.getElementById('typeexam').style.display = 'block';
                 document.getElementById('gender').style.display = 'none';
                 document.getElementById('age').style.display = 'none';
                 document.getElementById('crm').style.display = 'none';
@@ -115,18 +124,13 @@
 
 
             } else if (val === "pat") {
-
+                $(".exams").empty();
                 document.getElementById('name').style.display = 'block';
                 document.getElementById('address').style.display = 'block';
                 document.getElementById('phone').style.display = 'block';
                 document.getElementById('email').style.display = 'block';
                 document.getElementById('specialty').style.display = 'none';
-                document.getElementById('exams1').style.display = 'none';
-                document.getElementById("exam1").style.display = 'none';
-                document.getElementById('exams2').style.display = 'none';
-                document.getElementById("exam2").style.display = 'none';
-                document.getElementById('exams3').style.display = 'none';
-                document.getElementById("exam3").style.display = 'none';
+                document.getElementById('typeexam').style.display = 'none';
                 document.getElementById('gender').style.display = 'block';
                 document.getElementById('age').style.display = 'block';
                 document.getElementById('crm').style.display = 'none';
@@ -137,7 +141,6 @@
                 document.getElementById("phonelabel").style.display = 'block';
                 document.getElementById("elabel").style.display = 'block';
                 document.getElementById("speclabel").style.display = 'none';
-                document.getElementById("examlabel").style.display = 'none';
                 document.getElementById("genlabel").style.display = 'block';
                 document.getElementById("agelabel").style.display = 'block';
                 document.getElementById("crmlabel").style.display = 'none';
@@ -226,11 +229,8 @@
                                             <option value="Psiquiatra">Psiquiatra</option>
                                             <option value="Clinico Geral">Clínico Geral</option>
                                         </select> </div>
-                                    <div class="group"> <label for="pass" class="label" id="examlabel" style="display: none;">Tipos de exame</label>
-                                        <div style="display: flex;">
-                                            <input id="exams1" type="checkbox" class="check" style="display: none; padding: 10px;"> <label for="check" id=exam1 style="display: none; padding: 10px;"> Sangue </label>
-                                            <input id="exams2" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam2 style="display: none; padding: 10px;"> Endoscopia </label>
-                                            <input id="exams3" type="checkbox" class="check" style="display: none;"> <label for="check" id=exam3 style="display: none; padding: 10px;"> Hepatites </label>
+                                    <div class="group" id="typeexam" style="display: none;"> <label for="pass" class="label" id="examlabel">Tipos de exame</label>
+                                        <div style="display:flex; flex-wrap: wrap;" class="exams">
                                         </div>
                                     </div>
                                     <div class="group"> <label for="pass" class="label" id="genlabel" style="display: none;">Gênero</label> <select class="select" id="gender" name="select" style="display: none;" onchange=this.value required>

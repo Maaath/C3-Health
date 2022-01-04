@@ -142,6 +142,17 @@ class examsRecordsController extends examsRecords
 
         include '../views/exams-history.php';
     }
+
+
+    public function getTypeExams()
+    {
+        
+        $type_exams = new typeExams();
+
+        $rec = $type_exams->getAllExams();
+
+        echo json_encode($rec);
+    }
 }
 
 $exams_record_controller = new examsRecordsController();
@@ -164,5 +175,8 @@ switch ($action) {
         break;
     case 'seeRecords':
         $exams_record_controller->seeRecords($params);
+        break;
+    case 'getTypeExams':
+        $exams_record_controller->getTypeExams();
         break;
 }

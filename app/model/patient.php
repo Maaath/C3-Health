@@ -23,18 +23,7 @@ class patient
         $result = $patients->find();
 
         return $result;
-
-        // $xml = simplexml_load_file('./../../public/files/patients.xml');
-
-        // if ($xml === false) {
-        //     echo "Falha ao Carregar o XML: ";
-        //     foreach (libxml_get_errors() as $error) {
-
-        //         echo "<br>", $error->message;
-        //     }
-        // } else {
-        //     return $xml;
-        // }
+    
     }
 
     function getPatient($cpf)

@@ -34,16 +34,24 @@ function cadastrar() {
     let phone_number = $('#phone').val();
     let email = $('#email').val();
     let specialty = $('#specialty').val();
-    var exam = [1, 2, 3];
+    let exams = new Array();
     let gender = $('#gender').val();
     let age = $('#age').val();
     let crm = $('#crm').val();
     let cnpj = $('#cnpj').val();
     let cpf = $('#cpf').val();
 
-    if (!$('#exams3').is(":checked")) exam.splice(2, 1);
-    if (!$('#exams2').is(":checked")) exam.splice(1, 1);
-    if (!$('#exams1').is(":checked")) exam.splice(0, 1);
+    var teste = $('.exams div input').each(() => {});
+
+    exams = Object.values(teste).reduce(function(acc, curr) {
+        if ($(curr).is(":checked")) acc.push($(curr).attr('id').replace('exams_', ''));
+        return acc;
+    }, new Array());
+
+
+    // if (!$('#exams3').is(":checked")) exam.splice(2, 1);
+    // if (!$('#exams2').is(":checked")) exam.splice(1, 1);
+    // if (!$('#exams1').is(":checked")) exam.splice(0, 1);
 
     if (usertype == 'doctor') {
         var url = "/app/controllers/doctorController.php";
@@ -63,7 +71,7 @@ function cadastrar() {
             email,
             address,
             phone_number,
-            exams: exam,
+            exams: exams,
             cnpj,
             action: 'store'
         };
