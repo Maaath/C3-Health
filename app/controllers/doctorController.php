@@ -12,29 +12,30 @@ class doctorController extends doctor
 
         $appointments_records = new appointmentsRecords();
         $patients = new patient();
-        $recs = (array) $appointments_records->getAllAppointments();
+        $recs = $appointments_records->getAllAppointments();
 
-        // get wait appointments
-        $wait_appointments = array_filter($recs['record'], function ($val) {
-            $date = explode("-", $val->date);
+        // get wait appointments, my patients and next appointments
+        $wait_appointments = [];
+        $my_patients = [];
+        $next_appointments = [];
+
+        foreach ($recs as $key => $val) {
+            $date = explode("-", $val['date']);
             $date = $date[2] . "-" . $date[1] . "-" . $date[0];
-            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == 'wait' && $val->specialty == $_SESSION['specialty'];
-        });
+            if (strtotime(date('Y-m-d')) < strtotime($date) && $val['accept'] === 'wait' && $val['specialty'] == $_SESSION['specialty']) $wait_appointments[] = $val;
+            if ($val['doctor'] == $_SESSION['user']) $my_patients[] = $val;
+            if (strtotime(date('Y-m-d')) < strtotime($date) && $val['accept'] === true && $val['doctor'] == $_SESSION['user']) $next_appointments[] = $val;
+        }
 
         foreach ($wait_appointments as  $value) {
-            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
-            $value->patient_name = $patient->name;
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value['patient']));
+            $value['patient_name'] = $patient['name'];
         }
 
         session_start();
 
-        // get my patients
-        $my_patients = array_filter($recs['record'], function ($val) {
-            return $val->doctor == $_SESSION['user'];
-        });
-
         $my_patients = array_map(function ($value) {
-            return (string)$value->patient;
+            return (string)$value['patient'];
         }, $my_patients);
 
         $my_patients = array_unique($my_patients);
@@ -42,20 +43,13 @@ class doctorController extends doctor
         $my_patients = array_map(function ($value) {
             $patients = new patient();
             $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value));
-            return array("patient" => (string)$value, "patient_name" => (string)$patient->name);
+            return array("patient" => (string)$value, "patient_name" => (string)$patient['name']);
         }, $my_patients);
-
-        // get next appointments
-        $next_appointments = array_filter($recs['record'], function ($val) {
-            $date = explode("-", $val->date);
-            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
-            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == '1' && $val->doctor == $_SESSION['user'];
-        });
 
         $next_appointments = array_map(function ($value) {
             $patients = new patient();
-            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
-            $value["patient_name"] = (string)$patient->name;
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value['patient']));
+            $value["patient_name"] = (string)$patient['name'];
             return $value;
         }, $next_appointments);
 

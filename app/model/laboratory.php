@@ -37,6 +37,25 @@ class laboratory
         }
     }
 
+    function getExamsByLab($id)
+    {
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
+
+        $lab_exam = $client->Health->lab_exam;
+
+        $result = $lab_exam->find();
+
+        $exams = [];
+
+        foreach ($result as $exam_lab) {
+            if ($exam_lab['laboratory_id'] == $id) {
+                $exams[] = $exam_lab['exams_id'];
+            }
+        }
+
+        return $exams;
+    }
+
     function insertLaboratory($data)
     {
 

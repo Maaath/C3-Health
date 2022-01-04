@@ -2,90 +2,36 @@
 
 class examsRecords
 {
-        
+
     public $date;
     public $laboratory;
     public $patient;
     public $exam;
     public $result;
 
-
-    function setDate($date)
-    {
-        $this->date = $date;
-    }
-
-    function getDate()
-    {
-        return $this->date;
-    }
-
-    function setLaboratory($laboratory)
-    {
-        $this->laboratory = $laboratory;
-    }
-
-    function getLaboratory()
-    {
-        return $this->laboratory;
-    }
-
-    function setPatient($patient)
-    {
-        $this->patient = $patient;
-    }
-
-    function getPatient()
-    {
-        return $this->patient;
-    }
-
-    function setExam($exam)
-    {
-        $this->exam = $exam;
-    }
-
-    function getExam()
-    {
-        return $this->exam;
-    }
-
-    function setResult($result)
-    {
-        $this->result = $result;
-    }
-
-    function getResult()
-    {
-        return $this->result;
-    }
-
     function getAllExams()
     {
 
-        $xml = simplexml_load_file('./../../public/files/exams_records.xml');
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        if ($xml === false) {
-            echo "Falha ao Carregar o XML: ";
-            foreach (libxml_get_errors() as $error) {
+        $exam_records = $client->Health->exam_records;
 
-                echo "<br>", $error->message;
-            }
-        } else {
-            return $xml;
-        }
+        $result = $exam_records->find();
+
+        return $result;
     }
 
     function getOneExam($params)
     {
 
-        
-        $file = './../../public/files/exams_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $exam_records = $client->Health->exam_records;
 
-        foreach ($xml->record as $rec) {
-            if ($rec->patient == $params['patient'] && $rec->laboratory == $params['laboratory'] && $rec->date == $params['date']) {
+        $result = $exam_records->find();
+
+        foreach ($result as $rec) {
+            if ($rec['patient'] == $params['patient'] && $rec['laboratory'] == $params['laboratory'] && $rec['date'] == $params['date']) {
                 return $rec;
             }
         }
@@ -94,144 +40,176 @@ class examsRecords
     function insertExam($data)
     {
 
-        $file = './../../public/files/exams_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $exam_records = $client->Health->exam_records;
+
+        $result = $exam_records->find();
 
         $salvar = true;
 
-        foreach ($xml as $rec) {
-            if ($rec->patient == $data['patient'] && $rec->laboratory == $data['laboratory'] && $rec->date == $data['date']) $salvar = false;
+        foreach ($result as $rec) {
+            if ($rec['patient'] == $data['patient'] && $rec['laboratory'] == $data['laboratory'] && $rec['date'] == $data['date']) $salvar = false;
         }
+
+        $dataToSave = array(
+            'date' => $data['date'],
+            'laboratory' => $data['laboratory'],
+            'patient' => $data['patient'],
+            'exam' => $data['exam'],
+            'result' => $data['result'],
+            'accept' => $data['accept'],
+        );
+
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
 
         if ($salvar) {
 
-            $record = $xml->addChild("record");
-            $record->addChild("date", $data['date']);
-            $record->addChild("laboratory", $data['laboratory']);
-            $record->addChild("patient", $data['patient']);
-            $record->addChild("exam", $data['exam']);
-            $record->addChild("result", $data['result']);
-            $record->addChild("accept", $data['accept']);
-
-            $xml->asXML($file);
+            $exam_records->insertOne($dataToSave);
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
             );
-        } else {
-
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
-            );
         }
+
         return $retorno;
     }
 
     function editExam($data)
     {
 
-        $file = './../../public/files/exams_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $exam_records = $client->Health->exam_records;
 
-        // $salvar = false;
-
-        foreach ($xml->record as $rec) {
-            if ($rec->date == $data['date'] && $rec->patient == $data['patient'] && $rec->laboratory == $data['laboratory']) {
-
-                // $salvar = true;
-                $rec->exam = $data['exam'];
-                $rec->result = $data['result'];
-            }
-        }
-
-
-        // if ($salvar) {
-
-        $xml->asXML($file);
-
-        //     $retorno = array(
-        //         'success' => true,
-        //         'message' => 'Registro Salvo com sucesso!',
-        //     );
-        // } else {
-        //     $retorno = array(
-        //         'success' => false,
-        //         'message' => 'Não foi possível salvar o Registro',
-        //     );
-        // }
-
-        // return $retorno;
-    }
-
-    function acceptExam($data)
-    {
-
-        $file = './../../public/files/exams_records.xml';
-
-        $xml = simplexml_load_file($file);
+        $result = $exam_records->find();
 
         $salvar = false;
 
-        foreach ($xml->record as $rec) {
-            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+        foreach ($result as $rec) {
+            if ($rec['date'] == $data['date'] && $rec['patient'] == $data['patient'] && $rec['laboratory'] == $data['laboratory']) {
 
                 $salvar = true;
-                $rec->laboratory = $data['laboratory'];
-                $rec->accept = true;
+
+                $dataToSave = array(
+                    'exam' => $data['exam'],
+                    'result' => $data['result'],
+
+                );
+
+                $condition = array(
+                    'date' => $data['date'],
+                    'laboratory' => $data['laboratory'],
+                    'patient' => $data['patient'],
+                );
             }
         }
 
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
+
         if ($salvar) {
 
-            $xml->asXML($file);
+            $exam_records->updateOne($condition, array('$set' => $dataToSave));
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
-            );
-        } else {
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
             );
         }
 
         return $retorno;
     }
-    
-    function denialExam($data)
+
+    function acceptExam($data)
     {
-
-        $file = './../../public/files/exams_records.xml';
-
-        $xml = simplexml_load_file($file);
-
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
+        
+        $exam_records = $client->Health->exam_records;
+        
+        $result = $exam_records->find();
+        
         $salvar = false;
+        
+        foreach ($result as $rec) {
+            if ($rec['date'] == $data['date'] && $rec['patient'] == $data['patient']) {
 
-        foreach ($xml->record as $rec) {
-            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
                 $salvar = true;
-                $rec->laboratory = $data['laboratory'];
-                $rec->accept = false;
+
+                $dataToSave = array(
+                    'laboratory' => $data['laboratory'],
+                    'accept' => true,
+                );
+
+                $condition = array(
+                    'date' => $data['date'],
+                    'patient' => $data['patient'],
+                );
             }
         }
 
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
+
         if ($salvar) {
 
-            $xml->asXML($file);
+            $exam_records->updateOne($condition, array('$set' => $dataToSave));
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
             );
-        } else {
+        }
+
+        return $retorno;
+    }
+
+    function denialExam($data)
+    {
+
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
+
+        $exam_records = $client->Health->exam_records;
+
+        $result = $exam_records->find();
+
+        $salvar = false;
+
+        foreach ($result as $rec) {
+            if ($rec['date'] == $data['date'] && $rec['patient'] == $data['patient']) {
+                $salvar = true;
+                $dataToSave = array(
+                    'laboratory' => $data['laboratory'],
+                    'accept' => false
+                );
+
+                $condition = array(
+                    'date' => $data['date'],
+                    'patient' => $data['patient']
+                );
+            }
+        }
+
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
+
+        if ($salvar) {
+
+            $exam_records->updateOne($condition, array('$set' => $dataToSave));
+
             $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
+                'success' => true,
+                'message' => 'Registro Salvo com sucesso!',
             );
         }
 

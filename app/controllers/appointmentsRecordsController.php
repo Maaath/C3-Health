@@ -112,33 +112,34 @@ class appointmentsRecordsController extends appointmentsRecords
         $rec = $appointments_records->getAllAppointments();
 
         $my_recs = array();
-        foreach ($rec->record as $value) {
+
+        foreach ($rec as $value) {
 
 
             if ($_SESSION['typeUser'] == 'doctor') {
                 if ($params['patient']) {
-                    if ($value->doctor == trim($params['doctor']) && $value->patient == trim($params['patient'])) {
-                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
-                        $value['patient_name'] = $patients->name;
-                        $doctors = $doctor->getDoctor(str_replace(array('.', '/'), "", $value->doctor));
-                        $value['doctor_name'] = $doctors->name;
+                    if ($value['doctor'] == trim($params['doctor']) && $value['patient'] == trim($params['patient'])) {
+                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value['patient']));
+                        $value['patient_name'] = $patients['name'];
+                        $doctors = $doctor->getDoctor(str_replace(array('.', '/'), "", $value['doctor']));
+                        $value['doctor_name'] = $doctors['name'];
                         $my_recs[] = $value;
                     }
                 } else {
-                    if ($value->doctor == trim($params['doctor'])) {
-                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
-                        $value['patient_name'] = $patients->name;
-                        $doctors = $doctor->getDoctor(str_replace(array('.', '/'), "", $value->doctor));
-                        $value['doctor_name'] = $doctors->name;
+                    if ($value['doctor'] == trim($params['doctor'])) {
+                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value['patient']));
+                        $value['patient_name'] = $patients['name'];
+                        $doctors = $doctor->getDoctor(str_replace(array('.', '/'), "", $value['doctor']));
+                        $value['doctor_name'] = $doctors['name'];
                         $my_recs[] = $value;
                     }
                 }
             } else if ($_SESSION['typeUser'] == 'patient') {
-                if ($value->patient == $_SESSION['user']) {
-                    $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
-                    $value['patient_name'] = $patients->name;
-                    $doctors = $doctor->getDoctor(str_replace(array('.', '/'), "", $value->doctor));
-                    $value['doctor_name'] = $doctors->name;
+                if ($value['patient'] == $_SESSION['user']) {
+                    $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value['patient']));
+                    $value['patient_name'] = $patients['name'];
+                    $doctors = $doctor->getDoctor(str_replace(array('.', '/'), "", $value['doctor']));
+                    $value['doctor_name'] = $doctors['name'];
                     $my_recs[] = $value;
                 }
             }

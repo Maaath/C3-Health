@@ -10,52 +10,47 @@ class laboratoryController extends laboratory
     {
         $exams_records = new examsRecords();
         $patients = new patient();
-        $recs = (array) $exams_records->getAllExams();
-        
-        // get wait exams
-        $wait_exams = array_filter($recs['record'], function ($val) {
-            $laboratories = new laboratory();
-            $laboratory = $laboratories->getLaboratory(str_replace(array('.', '/', '-'), '', $_SESSION['user']));
-            $date = explode("-", $val->date);
-            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
-            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == 'wait' && in_array((string)$val->exam, (array)$laboratory->exams->exam);
-        });
+        $laboratories = new laboratory();
+        $recs = $exams_records->getAllExams();
 
-        foreach ($wait_exams as  $value) {
-            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
-            $value->patient_name = $patient->name;
+        // get wait exams, my patients and next exams
+
+        $wait_exams = [];
+        $my_patients = [];
+        $next_exams = [];
+
+        $lab = $laboratories->getLaboratory($_SESSION['user']);
+        $exams = $laboratories->getExamsByLab((string)$lab['_id']);
+
+        foreach ($recs as $key => $val) {
+            $date = explode("-", $val['date']);
+            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
+            if (strtotime(date('Y-m-d')) < strtotime($date) && gettype($val['accept']) == 'string' && in_array((string)$val['exam'], $exams)) $wait_exams[] = $val;
+            if ($val['laboratory'] == $_SESSION['user']) $my_patients[] = $val;
+            if (strtotime(date('Y-m-d')) < strtotime($date) && $val['accept'] == '1' && $val['laboratory'] == $_SESSION['user']) $next_exams[] = $val;
         }
 
-
-        // get my patients
-        $my_patients = array_filter($recs['record'], function ($val) {
-            return $val->laboratory == $_SESSION['user'];
-        });
+        foreach ($wait_exams as  $value) {
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value['patient']));
+            $value['patient_name'] = $patient['name'];
+        }
 
         $my_patients = array_map(function ($value) {
-            return (string)$value->patient;
+            return (string)$value['patient'];
         }, $my_patients);
-
 
         $my_patients = array_unique($my_patients);
 
         $my_patients = array_map(function ($value) {
             $patients = new patient();
             $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value));
-            return array("patient" => (string)$value, "patient_name" => (string)$patient->name);
+            return array("patient" => (string)$value, "patient_name" => (string)$patient['name']);
         }, $my_patients);
-
-        // get next exams
-        $next_exams = array_filter($recs['record'], function ($val) {
-            $date = explode("-", $val->date);
-            $date = $date[2] . "-" . $date[1] . "-" . $date[0];
-            return strtotime(date('Y-m-d')) < strtotime($date) && $val->accept == '1' && $val->laboratory == $_SESSION['user'];
-        });
 
         $next_exams = array_map(function ($value) {
             $patients = new patient();
-            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value->patient));
-            $value["patient_name"] = (string)$patient->name;
+            $patient = $patients->getPatient(str_replace(array('-', '.'), "", $value['patient']));
+            $value["patient_name"] = (string)$patient['name'];
             return $value;
         }, $next_exams);
 
@@ -68,7 +63,7 @@ class laboratoryController extends laboratory
 
     public function store($params)
     {
-       
+
         $laboratories = new laboratory();
 
         $data = array(

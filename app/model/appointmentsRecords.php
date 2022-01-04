@@ -11,27 +11,25 @@ class appointmentsRecords
 
     function getAllAppointments()
     {
-        $xml = simplexml_load_file('./../../public/files/appointment_records.xml');
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        if ($xml === false) {
-            echo "Falha ao Carregar o XML: ";
-            foreach (libxml_get_errors() as $error) {
+        $appointment_records = $client->Health->appointment_records;
 
-                echo "<br>", $error->message;
-            }
-        } else {
-            return $xml;
-        }
+        $result = $appointment_records->find();
+
+        return $result;
     }
 
     function getAppointment($params)
     {
-        $file = './../../public/files/appointment_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $appointment_records = $client->Health->appointment_records;
 
-        foreach ($xml->record as $rec) {
-            if ($rec->patient == $params['patient'] && $rec->doctor == $params['doctor'] && $rec->date == $params['date']) {
+        $result = $appointment_records->find();
+
+        foreach ($result as $rec) {
+            if ($rec['patient'] == $params['patient'] && $rec['doctor'] == $params['doctor'] && $rec['date'] == $params['date']) {
                 return $rec;
             }
         }
@@ -40,146 +38,178 @@ class appointmentsRecords
     function insertAppointment($data)
     {
 
-        $file = './../../public/files/appointment_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $appointment_records = $client->Health->appointment_records;
+
+        $result = $appointment_records->find();
 
         $salvar = true;
 
-        foreach ($xml as $rec) {
-            if ($rec->patient == $data['patient'] && $rec->doctor == $data['doctor'] && $rec->date == $data['date']) $salvar = false;
+        foreach ($result as $rec) {
+            if ($rec['patient'] == $data['patient'] && $rec['doctor'] == $data['doctor'] && $rec['date'] == $data['date']) $salvar = false;
         }
+
+        $dataToSave = array(
+            'date' => $data['date'],
+            'doctor' => $data['doctor'],
+            'patient' => $data['patient'],
+            'prescription' => $data['prescription'],
+            'specialty' => $data['specialty'],
+            'accept' => $data['accept'],
+            'obs' => $data['obs'],
+        );
+
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
 
         if ($salvar) {
 
-            $record = $xml->addChild("record");
-            $record->addChild("date", $data['date']);
-            $record->addChild("doctor", $data['doctor']);
-            $record->addChild("patient", $data['patient']);
-            $record->addChild("prescription", $data['prescription']);
-            $record->addChild("specialty", $data['specialty']);
-            $record->addChild("accept", $data['accept']);
-            $record->addChild("obs", $data['obs']);
-
-            $xml->asXML($file);
+            $appointment_records->insertOne($dataToSave);
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
             );
-        } else {
-
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
-            );
         }
+
         return $retorno;
     }
 
     function editAppointment($data)
     {
 
-        $file = './../../public/files/appointment_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $appointment_records = $client->Health->appointment_records;
+
+        $result = $appointment_records->find();
 
         $salvar = false;
 
-        foreach ($xml->record as $rec) {
-            if ($rec->date == $data['date'] && $rec->patient == $data['patient'] && $rec->doctor == $data['doctor']) {
+        foreach ($result as $rec) {
+
+            if ($rec['date'] == $data['date'] && $rec['patient'] == $data['patient'] && $rec['doctor'] == $data['doctor']) {
 
                 $salvar = true;
-                $rec->obs = $data['obs'];
-                $rec->prescription = $data['prescription'];
+
+                $dataToSave = array(
+                    'prescription' => $data['prescription'],
+                    'obs' => $data['obs'],
+                );
+
+                $condition = array(
+                    'date' => $data['date'],
+                    'patient' => $data['patient'],
+                    'doctor' => $data['patient'],
+                );
             }
         }
 
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
 
         if ($salvar) {
 
-            $xml->asXML($file);
+            $appointment_records->updateOne($condition, array('$set' => $dataToSave));
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
             );
-        } else {
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
-            );
         }
 
         return $retorno;
     }
-    
+
     function acceptAppointment($data)
     {
-
-        $file = './../../public/files/appointment_records.xml';
-
-        $xml = simplexml_load_file($file);
-
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
+        
+        $appointment_records = $client->Health->appointment_records;
+        
+        $result = $appointment_records->find();
+        
         $salvar = false;
-
-        foreach ($xml->record as $rec) {
-            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+        
+        foreach ($result as $rec) {
+            if ($rec['date'] == $data['date'] && $rec['patient'] == $data['patient']) {
 
                 $salvar = true;
-                $rec->doctor = $data['doctor'];
-                $rec->accept = true;
+
+                $dataToSave = array(
+                    'doctor' => $data['doctor'],
+                    'accept' => true,
+                );
+
+                $condition = array(
+                    'date' => $data['date'],
+                    'patient' => $data['patient'],
+                );
             }
         }
 
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
+
         if ($salvar) {
 
-            $xml->asXML($file);
+            $appointment_records->updateOne($condition, array('$set' => $dataToSave));
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
             );
-        } else {
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
-            );
         }
 
         return $retorno;
     }
-    
+
     function denialAppointment($data)
     {
 
-        $file = './../../public/files/appointment_records.xml';
+        $client = new MongoDB\Client("mongodb+srv://admin:admin@cluster0.lisav.mongodb.net/Health?retryWrites=true&w=majority");
 
-        $xml = simplexml_load_file($file);
+        $appointment_records = $client->Health->appointment_records;
+
+        $result = $appointment_records->find();
 
         $salvar = false;
 
-        foreach ($xml->record as $rec) {
-            if ($rec->date == $data['date'] && $rec->patient == $data['patient']) {
+        foreach ($result as $rec) {
+            if ($rec['date'] == $data['date'] && $rec['patient'] == $data['patient']) {
                 $salvar = true;
-                $rec->doctor = $data['doctor'];
-                $rec->accept = false;
+
+                $dataToSave = array(
+                    'doctor' => $data['doctor'],
+                    'accept' => false,
+                );
+
+                $condition = array(
+                    'date' => $data['date'],
+                    'patient' => $data['patient'],
+                );
             }
         }
 
+        $retorno = array(
+            'success' => false,
+            'message' => 'Não foi possível salvar o Registro',
+        );
 
         if ($salvar) {
 
-            $xml->asXML($file);
+            $appointment_records->updateOne($condition, array('$set' => $dataToSave));
 
             $retorno = array(
                 'success' => true,
                 'message' => 'Registro Salvo com sucesso!',
-            );
-        } else {
-            $retorno = array(
-                'success' => false,
-                'message' => 'Não foi possível salvar o Registro',
             );
         }
 

@@ -101,37 +101,37 @@ class examsRecordsController extends examsRecords
 
         $my_recs = array();
 
-        foreach ($rec->record as $value) {
+        foreach ($rec as $value) {
             if ($_SESSION['typeUser'] == 'laboratory') {
                 if ($params['patient']) {
-                    if ($value->laboratory == trim($params['laboratory']) && $value->patient == trim($params['patient'])) {
-                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
-                        $value['patient_name'] = $patients->name;
-                        $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value->laboratory));
-                        $value['laboratory_name'] = $laboratories->name;
-                        $t_exams = $type_exams->getExam((string)$value->exam);
-                        $value['exam_name'] = $t_exams->name;
+                    if ($value['laboratory'] == trim($params['laboratory']) && $value['patient'] == trim($params['patient'])) {
+                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value['patient']));
+                        $value['patient_name'] = $patients['name'];
+                        $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value['laboratory']));
+                        $value['laboratory_name'] = $laboratories['name'];
+                        $t_exams = $type_exams->getExam((string)$value['exam']);
+                        $value['exam_name'] = $t_exams['name'];
                         $my_recs[] = $value;
                     }
                 } else {
-                    if (trim($value->laboratory) == trim($params['laboratory'])) {
-                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
-                        $value['patient_name'] = $patients->name;
-                        $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value->laboratory));
-                        $value['laboratory_name'] = $laboratories->name;
-                        $t_exams = $type_exams->getExam((string)$value->exam);
-                        $value['exam_name'] = $t_exams->name;
+                    if (trim($value['laboratory']) == trim($params['laboratory'])) {
+                        $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value['patient']));
+                        $value['patient_name'] = $patients['name'];
+                        $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value['laboratory']));
+                        $value['laboratory_name'] = $laboratories['name'];
+                        $t_exams = $type_exams->getExam((string)$value['exam']);
+                        $value['exam_name'] = $t_exams['name'];
                         $my_recs[] = $value;
                     }
                 }
             } else if ($_SESSION['typeUser'] == 'patient') {
-                if ($value->patient == $_SESSION['user']) {
-                    $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value->patient));
-                    $value['patient_name'] = $patients->name;
-                    $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value->laboratory));
-                    $value['laboratory_name'] = $laboratories->name;
-                    $t_exams = $type_exams->getExam((string)$value->exam);
-                    $value['exam_name'] = $t_exams->name;
+                if ($value['patient'] == $_SESSION['user']) {
+                    $patients = $patient->getPatient(str_replace(array(".", "-"), "", $value['patient']));
+                    $value['patient_name'] = $patients['name'];
+                    $laboratories = $laboratory->getLaboratory(str_replace(array('.', '/', "-"), "", $value['laboratory']));
+                    $value['laboratory_name'] = $laboratories['name'];
+                    $t_exams = $type_exams->getExam((string)$value['exam']);
+                    $value['exam_name'] = $t_exams['name'];
                     $my_recs[] = $value;
                 }
             }

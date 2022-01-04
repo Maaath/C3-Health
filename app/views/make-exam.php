@@ -158,9 +158,9 @@ session_start()
                 </div>
                 <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
                     <select name="exams" id="exams" class="custom-select exam" required>
-                        <option value="1">Sangue</option>
+                        <!-- <option value="1">Sangue</option>
                         <option value="2">Endoscopia</option>
-                        <option value="3">Hepatites</option>
+                        <option value="3">Hepatites</option> -->
                     </select>
                 </div>
                 <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
@@ -237,6 +237,33 @@ session_start()
     <script src="../../assets/js/theme.js"></script>
 
     <script src="../../assets/js/home.js"></script>
+
+    <script>
+        $.ajax({
+            url: "/app/controllers/examsRecordsController.php",
+            contentType: 'application/json',
+            data: {
+                'action': 'getTypeExams'
+            },
+            dataType: "json",
+            success: function(data) {
+                let exam_type = data.reduce(function(acc, curr, index) {
+                    curr = Object.entries(curr);
+                    new_value = `${acc} 
+                                    <option value="${curr[0][0]}">${curr[0][1]}</option>
+                                `;
+                    return new_value;
+                }, '');
+                $('#exams').append(exam_type);
+                // console.log(exam_type);
+                // if (data.success) window.location.href = "/views/login.php";
+            },
+            error: function(data) {
+                alert("erro ao efetuar o cadastro");
+            }
+
+        });
+    </script>
 
 </body>
 

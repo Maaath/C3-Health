@@ -1,6 +1,5 @@
 <?php
 session_start();
-// var_dump($_SESSION);die;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

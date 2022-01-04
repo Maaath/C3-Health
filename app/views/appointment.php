@@ -135,7 +135,7 @@ session_start()
                 <div class="item">
                   <div class="card-doctor">
                     <div class="header">
-                      <img src="../assets/img/place_holder.png" alt="">
+                      <img src="../../assets/img/place_holder.png" alt="">
                       <div class="meta">
                         <abbr title="Ver histórico de consultas do paciente"><a href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
                       </div>
@@ -172,7 +172,7 @@ session_start()
                 <div class="item">
                   <div class="card-doctor">
                     <div class="header">
-                      <img src="../assets/img/place_holder.png" alt="">
+                      <img src="../../assets/img/place_holder.png" alt="">
                       <div class="meta">
                         <abbr title="Ver histórico de consultas do paciente"><a href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value['patient'] ?>"><span class="mai-search"></span></a></abbr>
                       </div>

@@ -225,9 +225,11 @@
                                     <div class="group"> <label for="pass" class="label" id="elabel" style="display: none;">Email</label> <input id="email" type="email" class="input" placeholder="Email" style="display: none;" required> </div>
                                     <div class="group"> <label for="pass" class="label" id="speclabel" style="display: none;">Especialidade</label> <select class="select" id="specialty" name="select" style="display: none;" onchange=this.value required>
                                             <option value="none">-- Selecione a sua especialidade --</option>
-                                            <option value="Otorrino">Otorrino</option>
-                                            <option value="Psiquiatra">Psiquiatra</option>
-                                            <option value="Clinico Geral">Clínico Geral</option>
+                                            <option value="general">Clínico Geral</option>
+                                            <option value="cardiology">Cardiologista</option>
+                                            <option value="dental">Dentista</option>
+                                            <option value="neurology">Neurologista</option>
+                                            <option value="orthopaedics">Ortopedista</option>
                                         </select> </div>
                                     <div class="group" id="typeexam" style="display: none;"> <label for="pass" class="label" id="examlabel">Tipos de exame</label>
                                         <div style="display:flex; flex-wrap: wrap;" class="exams">
