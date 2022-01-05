@@ -137,7 +137,7 @@ session_start()
                     <div class="header">
                       <img src="../../assets/img/place_holder.png" alt="">
                       <div class="meta">
-                        <abbr title="Ver histórico de exames do paciente"><a href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
+                        <abbr title="Ver histórico de exames do paciente"><a href="/app/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
                       </div>
                     </div>
                     <div class="body">
@@ -175,7 +175,7 @@ session_start()
                     <div class="header">
                       <img src="../../assets/img/place_holder.png" alt="">
                       <div class="meta">
-                        <abbr title="Ver histórico de exames do paciente"><a href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value['patient'] ?>"><span class="mai-search"></span></a></abbr>
+                        <abbr title="Ver histórico de exames do paciente"><a href="/app/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value['patient'] ?>"><span class="mai-search"></span></a></abbr>
                       </div>
                     </div>
                     <div class="body">
@@ -214,7 +214,7 @@ session_start()
                       <div class="meta">
                         <abbr title="Confirmar exame"><a href="#" onclick="acceptExam('<?php echo  $_SESSION['user'] ?>', '<?= $value->patient ?>', '<?= $value->date ?>')"><span class="mai-add"></span></a></abbr>
                         <abbr title="Não aceitar exame"><a href="#" onclick="denialExam('<?php echo  $_SESSION['user'] ?>', '<?= $value->patient ?>', '<?= $value->date ?>')"><span class="mai-remove"></span></a></abbr>
-                        <abbr title="Ver histórico de exames do paciente"><a href="/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
+                        <abbr title="Ver histórico de exames do paciente"><a href="/app/controllers/examsRecordsController.php?action=seeRecords&laboratory=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
                       </div>
                     </div>
                     <div class="body">

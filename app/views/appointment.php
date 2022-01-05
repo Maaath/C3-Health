@@ -137,7 +137,7 @@ session_start()
                     <div class="header">
                       <img src="../../assets/img/place_holder.png" alt="">
                       <div class="meta">
-                        <abbr title="Ver histórico de consultas do paciente"><a href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
+                        <abbr title="Ver histórico de consultas do paciente"><a href="/app/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
                       </div>
                     </div>
                     <div class="body">
@@ -174,7 +174,7 @@ session_start()
                     <div class="header">
                       <img src="../../assets/img/place_holder.png" alt="">
                       <div class="meta">
-                        <abbr title="Ver histórico de consultas do paciente"><a href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value['patient'] ?>"><span class="mai-search"></span></a></abbr>
+                        <abbr title="Ver histórico de consultas do paciente"><a href="/app/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value['patient'] ?>"><span class="mai-search"></span></a></abbr>
                       </div>
                     </div>
                     <div class="body">
@@ -213,7 +213,7 @@ session_start()
                       <div class="meta">
                         <abbr title="Confirmar consulta"><a href="#" onclick="acceptAppointment('<?php echo  $_SESSION['user'] ?>', '<?= $value->patient ?>', '<?= $value->date ?>')"><span class="mai-add"></span></a></abbr>
                         <abbr title="Não aceitar consulta"><a href="#" onclick="denialAppointment('<?php echo  $_SESSION['user'] ?>', '<?= $value->patient ?>', '<?= $value->date ?>')"><span class="mai-remove"></span></a></abbr>
-                        <abbr title="Ver histórico de consultas do paciente"><a href="/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
+                        <abbr title="Ver histórico de consultas do paciente"><a href="/app/controllers/appointmentsRecordsController.php?action=seeRecords&doctor=<?= $_SESSION['user'] ?>&patient=<?= $value->patient ?>"><span class="mai-search"></span></a></abbr>
                       </div>
                     </div>
                     <div class="body">

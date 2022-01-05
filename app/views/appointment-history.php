@@ -140,7 +140,7 @@ session_start()
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10 mt-5">
-          <h1 class="text-center mb-5 wow fadeInUp" style="color: #00D9A5 ;">Consultas Anteriores</h1>
+          <h1 class="text-center mb-5 wow fadeInUp" style="color: #00D9A5 ;">Consultas </h1>
           <div class="owl-carousel wow fadeInUp" id="myCarrousel">
 
             <?php
