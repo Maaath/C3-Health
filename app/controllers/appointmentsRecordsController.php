@@ -145,10 +145,64 @@ class appointmentsRecordsController extends appointmentsRecords
             }
         }
 
+        $countCurrMonth = $this->countByCurrentMonth($my_recs);
+        $countCurrYear = $this->countByCurrentYear($my_recs);
+        $countAveMonth = $this->countByAverageMonth($my_recs);
+        $countAveYear = $this->countByAverageYear($my_recs);
+        $counters = array($countCurrMonth, $countCurrYear, $countAveMonth, $countAveYear);
+
+        $_SESSION['counters'] = $counters;
+
         $_SESSION['patient_record'] = $my_recs;
 
 
         include '../views/appointment-history.php';
+    }
+
+    private function countByCurrentMonth($records)
+    {
+        $currMonth = date('m');
+        $counter = 0;
+        foreach ($records as $value) {
+            list($day, $month, $year) = explode('-', $value['date']);
+            if ($month == $currMonth) $counter++;
+        }
+
+        return $counter;
+    }
+
+    private function countByCurrentYear($records)
+    {
+        $currYear = date('Y');
+        $counter = 0;
+        foreach ($records as $value) {
+            list($day, $month, $year) = explode('-', $value['date']);
+            if ($year == $currYear) $counter++;
+        }
+
+        return $counter;
+    }
+
+    private function countByAverageMonth($records)
+    {
+        $counter = array();
+        foreach ($records as $value) {
+            list($day, $month, $year) = explode('-', $value['date']);
+            if (!in_array(($month.'-'.$year), $counter)) $counter[] = $month.'-'.$year;
+        }
+
+        return round(count($records)/count($counter));
+    }
+
+    private function countByAverageYear($records)
+    {
+        $counter = array();
+        foreach ($records as $value) {
+            list($day, $month, $year) = explode('-', $value['date']);
+            if (!in_array($year, $counter)) $counter[] = $year;
+        }
+
+        return round(count($records)/count($counter));
     }
 }
 

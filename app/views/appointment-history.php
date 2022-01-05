@@ -123,17 +123,18 @@ session_start()
 
   <div class="page-section">
 
-    <div class="counters">
-        <select class="form-control form-control-sm " aria-label="Default select example">
-          <option selected>Quantidade de Consultas:</option>
-          <option value="1">Mensal</option>
-          <option value="2">Anual</option>
-          <option value="3">Média Mensal</option>
-        </select>
+  <div class="counters">
+      <select id="counters" class="form-control form-control-sm" aria-label="Default select example">
+        <option value="" selected>Quantidade de Exames:</option>
+        <option value="<?= $_SESSION['counters'][0] ?>">Mensal</option>
+        <option value="<?= $_SESSION['counters'][1] ?>">Anual</option>
+        <option value="<?= $_SESSION['counters'][2] ?>">Média Mensal</option>
+        <option value="<?= $_SESSION['counters'][3] ?>">Média Anual</option>
+      </select>
     </div>
 
     <div class="num-counters">
-      <h2 class="text-center mb-5 wow fadeInUp" style="color: #00D9A5 ;">48</h2> <!-- Resultado da consulta -->
+      <h2 class="text-center mb-5 wow  counter-result" style="color: #00D9A5 ;"></h2> <!-- Resultado da consulta -->
     </div>
 
     <div class="container">

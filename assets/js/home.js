@@ -1,3 +1,7 @@
+$("#counters").change(function() {
+    $('.counter-result').text($(this).val());
+});
+
 let session_user = $('#session_user').text();
 
 if (session_user) {
